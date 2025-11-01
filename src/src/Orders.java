@@ -1,5 +1,5 @@
 package src;
-// add / cancel methods missing 
+// Create method not complete / cancel
 
 public class Orders {
 private  LinkedList<Order> orders;
@@ -30,6 +30,32 @@ public Order SearchOrderByID(int id) {
 			return orders.retrieve();
 	}
 	return null; //no order found with same ID	
+}
+
+//Create is different from adding? maybe i have to ask for customer id to initiate order or this will be in "place order for specific customer"
+
+public void AddOrder(Order ord) { 
+	
+	if(SearchOrderByID(ord.getOrderId())==null) {
+		orders.insert(ord);// should i add it to the end of the list?
+	System.out.println("Added Successfully, Order ID: "+ord.getOrderId());}
+	else
+		System.out.println("Order ID: "+ord.getOrderId()+" Already exists");	
+	
+}
+public void RemoveOrder(int id) {
+	if(!orders.empty()) {
+		orders.findfirst();
+		while(!orders.last()) { // loop from the first order till the order before last
+		if(orders.retrieve().getOrderId()!=id)// check if no matching ID is found ,continue the loop
+			orders.findnext();
+		else
+			orders.remove();// remove order that has the same order id
+	}
+		if(orders.retrieve().getOrderId()==id)// checking the last element
+			orders.remove();
+		}
+	System.out.println("No order found with this ID to delete");
 }
 
 public void displayOrders() {
