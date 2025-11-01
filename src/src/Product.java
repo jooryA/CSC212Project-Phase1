@@ -5,13 +5,14 @@ public class Product {
 	private String name;
 	private double price;
 	private int stock;
-	//private LinkedList<> reviews;   after adding the reviews class
+	private LinkedList<Review> reviews;  
 	
 	public Product(int productId, String name, double price, int stock) {   //a constructor
 		this.productId = productId;
 		this.name = name;
 		this.price = price;
 		this.stock = stock;
+		reviews = new LinkedList<>();
 		//add the List after creating reviews class
 	   
 	}
@@ -22,6 +23,9 @@ public class Product {
 	this.price = p.price;
 	this.stock = p.stock;
 	//copy the reviews as well
+	}
+	public void insertReview(Review r){
+	    reviews.insert(r);
 	}
 	
 	public int getProductId() {
