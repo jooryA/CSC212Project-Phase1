@@ -1,5 +1,4 @@
 package src;
-// Create method not complete / cancel
 
 public class Orders {
 private  LinkedList<Order> orders;
