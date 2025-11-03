@@ -3,17 +3,17 @@ package src;
 
 public class Orders {
 private  LinkedList<Order> orders;
-//private Customers customers; 
+private Customers customers; 
 
-//
-//public Orders(LinkedList<Customer> customers ,LinkedList<Order> orders) {
-	//this.orders = orders;
-   //this.customers=new Customers(customers); // 
-//}
+
+public Orders(LinkedList<Customer> customers ,LinkedList<Order> orders) {
+	this.orders = orders;
+   this.customers=new Customers(customers); 
+}
 
 
 public Orders() {
-	//customers=new Customers(); 
+	customers=new Customers(); 
 	orders=new LinkedList<>();
 
 }
@@ -32,12 +32,17 @@ public Order SearchOrderByID(int id) {
 	return null; //no order found with same ID	
 }
 
-//Create is different from adding? maybe i have to ask for customer id to initiate order or this will be in "place order for specific customer"
-
-public void AddOrder(Order ord) { 
-	
+public void AttachOrderToCustomer(Order newOrd) {// Every order must be linked to the customer who made it
+	Customer c=customers.SearchCustomerById(newOrd.getCustomerId());
+	if(c==null)
+		System.out.println("No Customers Found");
+	else
+		c.PlaceOrder(newOrd);	
+}
+public void CreateOrder(Order ord) { 
 	if(SearchOrderByID(ord.getOrderId())==null) {
 		orders.insert(ord);// should i add it to the end of the list?
+		AttachOrderToCustomer(ord);
 	System.out.println("Added Successfully, Order ID: "+ord.getOrderId());}
 	else
 		System.out.println("Order ID: "+ord.getOrderId()+" Already exists");	
@@ -47,14 +52,18 @@ public void RemoveOrder(int id) {
 	if(!orders.empty()) {
 		orders.findfirst();
 		while(!orders.last()) { // loop from the first order till the order before last
-		if(orders.retrieve().getOrderId()!=id)// check if no matching ID is found ,continue the loop
-			orders.findnext();
-		else
+		if(orders.retrieve().getOrderId()==id){// check if matching ID is found ,then remove it
 			orders.remove();// remove order that has the same order id
+		return;
+		}else
+			orders.findnext();//if no matching id is found , continue the loop
 	}
-		if(orders.retrieve().getOrderId()==id)// checking the last element
+		if(orders.retrieve().getOrderId()==id){// checking the last element
 			orders.remove();
+		return;
 		}
+	System.out.println("No order found with this ID to delete");
+}else
 	System.out.println("No order found with this ID to delete");
 }
 

@@ -14,6 +14,21 @@ public class Customer {
 		this.email = email;
 		orders = new LinkedList<>();
 	}
+	public void PlaceOrder(Order order) {// Place a new order for this specific customer
+		orders.insert(order);
+	}
+	public void displayOrders() {
+		if(!orders.empty()) {
+			System.out.println("Orders for Customer : "+name );
+			orders.findfirst();
+			while(!orders.last()) {// display all orders until the last order ( last one not included)
+				System.out.println(orders.retrieve().toString());
+				orders.findnext();
+			}
+			System.out.println(orders.retrieve().toString());// displays the last order
+		}else
+		System.out.println("No Orders Found for Customer : "+name);
+	}
 	public int getCustomerId() {
 		return CustomerId;
 	}
@@ -35,15 +50,10 @@ public class Customer {
 	
 	
 public void display() {
-		
-		
-		
 		System.out.println("Customer ID :" + CustomerId);
 		System.out.println("name  :" + name);
 		System.out.println("email :" + email);
-		
-		
-		
+	
 	}
 	
 
