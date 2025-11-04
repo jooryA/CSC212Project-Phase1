@@ -56,6 +56,12 @@ public class Product {
 	public int getStock() {
 		return stock;
 	}
+
+	@Override
+	public String toString() {
+		return "Product [productId=" + productId + ", name=" + name + ", price=" + price + ", stock=" + stock
+				+ ", reviews=" + reviews + "]";
+	}
 	
 	
 	

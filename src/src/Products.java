@@ -5,7 +5,7 @@ public class Products {
 	private LinkedList<Product> products;
 	
 	public Products() { 
-		products = new LinkedList();
+		products = new LinkedList<Product>();
 	   
 	}
 	
