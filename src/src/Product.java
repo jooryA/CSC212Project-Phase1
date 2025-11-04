@@ -12,9 +12,7 @@ public class Product {
 		this.name = name;
 		this.price = price;
 		this.stock = stock;
-		reviews = new LinkedList<>();
-		//add the List after creating reviews class
-	   
+		reviews = new LinkedList<>();	   
 	}
 	
 	public void updateProduct(Product p) {       
@@ -22,8 +20,26 @@ public class Product {
 	this.name = p.name;
 	this.price = p.price;
 	this.stock = p.stock;
-	//copy the reviews as well
+	this.reviews = p.reviews;
 	}
+	
+	public double getAverageRating() {
+		if(reviews.empty())
+			return 0;
+		double sum = 0;
+		int count =0;
+		reviews.findfirst();
+		while(!reviews.last()) {
+			sum+=reviews.retrieve().getRating();
+			count++;
+			reviews.findnext();
+		}
+		sum+=reviews.retrieve().getRating();
+		count++;
+		
+		return sum/count;
+	}
+	
 	public void insertReview(Review r){
 	    reviews.insert(r);
 	}
@@ -37,5 +53,10 @@ public class Product {
 		return name;
 	}
 
+	public int getStock() {
+		return stock;
+	}
+	
+	
 	
 }

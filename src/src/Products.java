@@ -10,16 +10,34 @@ public class Products {
 	}
 	
 	public void addProduct(Product p) {
-		products.insert(p);
+		if(searchProductById(p.getProductId())==null) {
+			products.insert(p);
+			System.out.println(p.getName()+" is added successfully.");}
+		else 
+			System.out.println(p.getName()+" is already added.");
 	}
 	
-	public void removeProduct() {
-		products.remove();
+	public void removeProduct(int id) {
+		if(searchProductById(id)!=null) {
+			String name =products.retrieve().getName();
+			products.remove();       //the search method would move the current to the intended product so it'll get removed
+			System.out.println((name+" is removed successfully."));}
+		else
+			System.out.println("Product with this Id does not exist.");
 	}
 	
-	public Product search(int id) {
+	public void updateProduct(int id , Product p) {
+		Product prod = searchProductById(id);
+		if(prod!=null) {
+			prod.updateProduct(p);
+			System.out.println("Product is updated successfully into "+p.getName());}
+		else 
+			System.out.println("Product with this Id does not exist.");
+	}
+	
+	public Product searchProductById(int id) {
 		if(products.empty())
-			return null;    //NO products in the list
+			return null;    //No products in the list
 		else {
 			products.findfirst();
 			while(!products.last()) {   //Looping from the first product till the one before the last
@@ -34,10 +52,9 @@ public class Products {
 		}
 	}
 	
-
-	public Product search(String name) {
+	public Product searchProductByName(String name) {
 		if(products.empty())
-			return null;    //NO products in the list
+			return null;    //No products in the list
 		else {
 			products.findfirst();
 			while(!products.last()) {   //Looping from the first product till the one before the last
@@ -52,6 +69,27 @@ public class Products {
 		}
 	}
 
-	
+	public void displayOutOfStock() {
+		if(products.empty()) {
+			System.out.println("No products exist");
+			return;
+		}
+		System.out.println("Out of stock products:");
+		boolean inStock = true;
+		products.findfirst();
+		
+		while(!products.last()){
+			if(products.retrieve().getStock()==0) {
+				System.out.println(products.retrieve().toString()); 
+				inStock = false;}
+			products.findnext();
+		}
+		if(products.retrieve().getStock()==0) {
+			System.out.println(products.retrieve().toString()); 
+			inStock = false;}
+		
+		if (inStock)
+			System.out.println("All products are in Stock");
+	}
 	
 }
