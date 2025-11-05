@@ -3,19 +3,119 @@ package src;
 public class Reviews {
 
 	private LinkedList<Review> reviews;
+	private Products products;
+	private Customers Customers;
+	
+	
+	public Reviews() {
+		reviews = new LinkedList<>();
+		products = new Products();
+		Customers = new Customers();
 
-    public Reviews() {
-        reviews = new LinkedList<>();
-    }
-    
-    
-    
- // Add a new review
-    public void addNewReview(int reviewId, int customerId, int productId, int rating, String comment) {
-        Review r = new Review(reviewId, customerId, productId, rating, comment);
-        reviews.insert(r);
-        System.out.println("Review added successfully.");
-    }
-    //edit rev باقي 
-    
+	}
+	public Reviews(LinkedList<Review> reviews, LinkedList<Product> Tproducts, LinkedList<Customer> Tcustomers) {
+
+		this.reviews = reviews;
+		products = new Products(Tproducts);
+		Customers = new Customers(Tcustomers);
+	}
+
+	
+
+	public Review searchReviewtById(int id) {
+		if (reviews.empty())
+			return null; // No Reviews in the list
+		else {
+			reviews.findfirst();
+			while (!reviews.last()) { // Looping from the first Review till the one before the last
+				if (reviews.retrieve().getReviewID() == id)
+					return reviews.retrieve();
+				reviews.findnext();
+			}
+
+			if (reviews.retrieve().getReviewID() == id) // For the last Review in the list
+				return reviews.retrieve();
+
+			return null; // If there's no Review in the list matches the id
+		}
+	}
+
+	public void AttachReviewToproduct(Review r) {
+		Product p = products.searchProductById(r.getProductID());
+		if (p == null)
+			System.out.println("No Reviews Found");
+		else
+			p.insertReview(r);
+		;
+	}
+
+	public void AttachReviewToCustomer(Review r) {
+		Customer c = Customers.SearchCustomerById(r.getCustomerID());
+		if (c == null)
+			System.out.println("No Reviews Found");
+		else
+			c.addReview(r);
+	}
+
+	// Add a new review
+	public void addNewReview(Review R) {
+		if (searchReviewtById(R.getReviewID()) == null) {
+			reviews.insert(R);
+			AttachReviewToproduct(R);
+			AttachReviewToCustomer(R);
+
+			System.out.println("Added Successfully, Review ID: " + R.getReviewID());
+		} else
+			System.out.println("Review ID: " + R.getReviewID() + " Already exists");
+
+	}
+
+	public void updateReview(int id, Review p) {
+		Review rev = searchReviewtById(id);
+		if (rev != null) {
+			rev.updateReview(p);
+			System.out.println("Review is updated successfully ");
+		} else
+			System.out.println("Review with this Id does not exist.");
+	}
+
+	public void displayReview() {
+		if (reviews.empty()) {
+			System.out.println("No Reviews found ");
+			return;
+		}
+
+		reviews.findfirst();
+		while (!reviews.last()) { // display all Reviews until the last Review ( last one not included)
+			Review d = reviews.retrieve();
+			d.display();
+		}
+		Review d = reviews.retrieve();// displays the last Review
+		d.display();
+	}
+
+	public LinkedList<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(LinkedList<Review> reviews) {
+		this.reviews = reviews;
+	}
+
+	public Products getProducts() {
+		return products;
+	}
+
+	public void setProducts(Products products) {
+		this.products = products;
+	}
+
+	public Customers getCustomers() {
+		return Customers;
+	}
+
+	public void setCustomers(Customers customers) {
+		Customers = customers;
+	}
+
 }

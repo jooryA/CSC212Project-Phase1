@@ -11,10 +11,6 @@ public class Customers {
 	public Customers(LinkedList<Customer> customers) {
 	Customers=customers;	
 	}
-	
-	public void registerNewCustomer(int id , String name ,String email) {
-		Customers.insert(new Customer(id , name , email));}
-	
 	public Customer SearchCustomerById(int id) {
 		if(!Customers.empty()) { // if it is not empty check customers
 			Customers.findfirst();
@@ -29,6 +25,20 @@ public class Customers {
 		}
 		return null; //no customers found with same ID	
 	}
+	
+	
+	public void registerNewCustomer(Customer c) {
+		if(SearchCustomerById(c.getCustomerId())==null) {
+			Customers.insert(c);
+			
+		System.out.println("Added Successfully, Customer ID: "+ c.getCustomerId());}
+		else
+			System.out.println("Order ID: "+c.getCustomerId()+" Already exists");	
+		
+	}
+		
+	
+	
 	public void displayAllCustomers() {
         if (Customers.empty()) {
             System.out.println("No customers found");
@@ -41,6 +51,8 @@ public class Customers {
         }
        Customers.retrieve().display();
     }
+	
+	
 	
 }
 

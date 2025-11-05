@@ -4,11 +4,20 @@ public class Products {
 	
 	private LinkedList<Product> products;
 	
+	public Products(LinkedList<Product> products) {
+		this.products=products;
+	}
+
 	public Products() { 
 		products = new LinkedList<Product>();
 	   
 	}
 	
+	
+
+	
+
+
 	public void addProduct(Product p) {
 		if(searchProductById(p.getProductId())==null) {
 			products.insert(p);

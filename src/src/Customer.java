@@ -6,6 +6,7 @@ public class Customer {
 	private String name;
 	private String email;
 	private LinkedList<Order> orders;
+	private LinkedList<Review> reviews;
 	
 	public Customer(int customerId, String name, String email) {
 		
@@ -13,9 +14,14 @@ public class Customer {
 		this.name = name;
 		this.email = email;
 		orders = new LinkedList<>();
+		reviews = new LinkedList<>();
+
 	}
 	public void PlaceOrder(Order order) {// Place a new order for this specific customer
 		orders.insert(order);
+	}
+	public void addReview(Review r) {
+		reviews.insert(r);
 	}
 	public void displayOrders() {
 		if(!orders.empty()) {
@@ -29,6 +35,22 @@ public class Customer {
 		}else
 		System.out.println("No Orders Found for Customer : "+name);
 	}
+	
+	
+	public void displayReviews() {
+		if(!reviews.empty()) {
+			System.out.println("reviews for Customer : "+name );
+			reviews.findfirst();
+			while(!reviews.last()) {// display all reviews until the last review ( last one not included)
+			reviews.retrieve().display();
+			reviews.findnext();
+			}
+            reviews.retrieve().display();// displays the last review
+		}else
+		System.out.println("No Reviews Found for Customer :  "+name);
+	}
+	
+	
 	public int getCustomerId() {
 		return CustomerId;
 	}
@@ -53,10 +75,12 @@ public void display() {
 		System.out.println("Customer ID :" + CustomerId);
 		System.out.println("name  :" + name);
 		System.out.println("email :" + email);
+		displayOrders();
+		displayReviews();
+		
 	
 	}
 	
 
-	
-	
+
 }

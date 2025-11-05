@@ -16,6 +16,13 @@ public class Review {
 		this.rating = rating;
 		this.comment = comment;
 	}
+	public void updateReview(Review R) {
+		this.reviewID= R.reviewID;
+		this.CustomerId= R.CustomerId;
+		this.productID= R.productID;
+		this.rating= R.rating;
+		this.comment= R.comment;
+	}
 
 	public int getReviewID() {
 		return reviewID;
