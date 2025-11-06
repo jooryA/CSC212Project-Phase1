@@ -27,6 +27,7 @@ public class ECommerceSystem {
 	AllCustomers=new Customers(CustomersList);
 	AllOrders=new Orders(CustomersList, OrdersList);
 	}
+	
 // we can add more options
 	public static void main(String[] args) {
 	ECommerceSystem ES=new  ECommerceSystem();	
@@ -60,6 +61,7 @@ public class ECommerceSystem {
 		case 5://View Customer Reviews
 			break;
 		case 6://Show Top 3 Products (Based on Rating)
+			ES.displayTop3Products();
 			break;
 		case 7://Show Orders Between Two Dates
 			break;
@@ -77,8 +79,56 @@ public class ECommerceSystem {
 	}while(choice!=9);
 	// end do-while
 	
-	}
+	}  // End of main 
 	// Method read from files
+	public void displayTop3Products() {
+		if(ProductsList.empty()) {
+			System.out.println("No Products in in the list.");
+			return;
+		}
+		
+		Product max1=new Product(-1,"-",-1,-1);
+		Product max2=new Product(-1,"-",-1,-1);
+		Product max3=new Product(-1,"-",-1,-1);
+		
+		ProductsList.findfirst();
+		while(!ProductsList.last()) {
+			Product p =ProductsList.retrieve();
+			if(p.getAverageRating()>max1.getAverageRating()) {
+				max3=max2;
+				max2=max1;
+				max1=p;
+			}else if(p.getAverageRating()>max2.getAverageRating()){
+				max3=max2;
+				max2=p;
+			}else if(p.getAverageRating()>max3.getAverageRating()){
+				max3=p;
+			}
+			ProductsList.findnext();
+		}
+		//for the last product 
+		Product p =ProductsList.retrieve();
+		if(p.getAverageRating()>max1.getAverageRating()) {
+			max3=max2;
+			max2=max1;
+			max1=p;
+		}else if(p.getAverageRating()>max2.getAverageRating()){
+			max3=max2;
+			max2=p;
+		}else if(p.getAverageRating()>max3.getAverageRating()){
+			max3=p;
+		}
+		
+		System.out.println("Top Products (Based on Rating)");
+		if(max1!=null)
+			System.out.println("Top 1: "+ max1.getName()+", ID: "+max1.getProductId()+", Average rating: "+max1.getAverageRating());
+		if(max2!=null)
+			System.out.println("Top 2: "+ max2.getName()+", ID: "+max2.getProductId()+", Average rating: "+max2.getAverageRating());
+		if(max3!=null)
+			System.out.println("Top 3: "+ max3.getName()+", ID: "+max3.getProductId()+", Average rating: "+max3.getAverageRating());
+ 
+	}
+
 	
 	
 

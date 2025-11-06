@@ -1,5 +1,9 @@
 package src;
 
+import java.util.Scanner;
+import java.io.File;
+
+
 public class Products {
 	
 	private LinkedList<Product> products;
@@ -12,11 +16,6 @@ public class Products {
 		products = new LinkedList<Product>();
 	   
 	}
-	
-	
-
-	
-
 
 	public void addProduct(Product p) {
 		if(searchProductById(p.getProductId())==null) {
@@ -99,6 +98,29 @@ public class Products {
 		
 		if (inStock)
 			System.out.println("All products are in Stock");
+	}
+	
+	public void loadProducts(String fileName) {
+		try {
+			File file = new File(fileName);
+			Scanner read = new Scanner(file);
+			System.out.println("File: "+fileName);
+			
+			if (read.hasNextLine()) {   //for the header if there's one 
+	            read.nextLine(); 
+	        }
+			while(read.hasNextLine()) {
+				String line = read.nextLine().trim();
+				if(!line.isEmpty()) {
+					String productInfo[]=line.split(",");
+					products.insert(new Product(Integer.parseInt(productInfo[0]), productInfo[1] ,Double.parseDouble(productInfo[2]) ,Integer.parseInt(productInfo[3])));
+				}
+			}
+			read.close();
+	        System.out.println("File loaded successfully.");
+		}catch (Exception e) {
+			System.out.println("Error in reading file: "+e.getMessage());
+		}
 	}
 	
 }
