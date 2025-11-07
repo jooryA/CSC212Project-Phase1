@@ -1,20 +1,23 @@
 package src;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Order {
 	private int OrderId;
 	private int customerId;
 	private String ProductId;
 	private double totalPrice;
-	private String OrderDate;
+	private LocalDate OrderDate;
 	private String Status;
 	//private LinkedList<Products> product;
 	
-	public Order(int orderId, int customerId, String productId, double totalPrice, String orderDate, String status) {
+	public Order(int orderId, int customerId, String productId, double totalPrice, LocalDate orderDate, String status) {
 		this.OrderId = orderId;
 		this.customerId = customerId;
 		this.ProductId = productId;
 		this.totalPrice = totalPrice;
-		this.OrderDate = orderDate;
+        this.OrderDate = orderDate;
 		this.Status = status;
 	}
 	
@@ -45,7 +48,7 @@ public class Order {
 	
 	public double getTotalPrice() {return totalPrice;}
 	
-	public String getOrderDate() {return OrderDate;}
+	public LocalDate getOrderDate() {return OrderDate;}
 	
 	public String getStatus() {return Status;}
 	

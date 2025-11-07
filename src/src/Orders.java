@@ -1,5 +1,10 @@
 package src;
 
+import java.io.File;
+import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Orders {
 	private  LinkedList<Order> orders;
 	private Customers customers; 
@@ -84,7 +89,41 @@ public class Orders {
 	public LinkedList<Order> getOrders() {
 		return orders;
 	}
-	
+	public void loadOrders(String fileName) {
+	    try {
+	        File file = new File(fileName);
+	        Scanner read = new Scanner(file);
+	        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	        System.out.println("Loading orders from: " + fileName);
+	        
+	        if (read.hasNextLine()) {
+	            read.nextLine(); // Skip the header line
+	        }
+
+	        while (read.hasNextLine()) {
+	            String line = read.nextLine().trim();
+	            if (!line.isEmpty()) {//read the data 
+
+	            String[] data = line.split(",");
+
+	            int orderId = Integer.parseInt(data[0]);
+	            int customerId = Integer.parseInt(data[1]);
+	            String productId = data[2];
+	            double totalPrice = Double.parseDouble(data[3]);
+	            LocalDate orderDate = LocalDate.parse(data[4],df);
+	            String status = data[5];
+
+	            Order o = new Order(orderId, customerId, productId, totalPrice, orderDate, status);
+	            orders.insert(o); // Add order to LinkedList
+	        }}
+
+	        read.close();
+	        System.out.println("Orders loaded successfully from file: " + fileName);
+
+	    } catch (Exception e) {
+	        System.out.println("Error reading orders file: " + e.getMessage());
+	    }
+	}
 	
 	
 	
