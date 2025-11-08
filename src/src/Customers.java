@@ -1,5 +1,8 @@
 package src;
 
+import java.io.File;
+import java.util.Scanner;
+
 public class Customers {
 
 	private  LinkedList<Customer> Customers;
@@ -53,6 +56,33 @@ public class Customers {
     }
 	
 	
-	
+	public void loadProducts(String fileName) {
+		try {
+			File file = new File(fileName);
+			Scanner read = new Scanner(file);
+			System.out.println("File: "+fileName);
+			
+			if (read.hasNextLine()) {   //for the header if there's one 
+	            read.nextLine(); 
+	        }
+			while(read.hasNextLine()) {
+				String line = read.nextLine().trim();
+				
+				if(!line.isEmpty()) {
+					String a[]=line.split(",");
+					int id = Integer.parseInt(a[0].trim());
+					String name = a[1].trim();
+					String email = a[2].trim();
+					
+					Customer c = new Customer( id , name, email);
+					Customers.insert(c);
+				}
+			}
+			read.close();
+	        System.out.println("File loaded successfully.");
+		}catch (Exception e) {
+			System.out.println("Error in reading file: "+e.getMessage());
+		}
+	}
 }
 
