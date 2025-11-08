@@ -1,5 +1,10 @@
 package src;
 
+import java.io.File;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
+
 public class Reviews {
 
 	private LinkedList<Review> reviews;
@@ -117,5 +122,41 @@ public class Reviews {
 	public void setCustomers(Customers customers) {
 		Customers = customers;
 	}
+	
+	
+	
+	public void loadOrders(String fileName) {
+	    try {
+	        File file = new File(fileName);
+	        Scanner read = new Scanner(file);
+	        System.out.println("Reading File: " + fileName);
+	        
+	        if (read.hasNextLine()) {
+	            read.nextLine(); // Skip the header line
+	        }
 
+	        while (read.hasNextLine()) {
+	            String line = read.nextLine().trim();
+	            if (!line.isEmpty()) {//read the data 
+
+	            String[] a = line.split("," , 5);
+	            int reviewID= Integer.parseInt(a[0].trim());
+	            int customerID =Integer.parseInt(a[2].trim());
+	            int productID = Integer.parseInt(a[1].trim());
+	            int rating = Integer.parseInt(a[3].trim());
+	            String comment = a[4];
+
+
+	        	Review r= new Review( reviewID,  customerID,  productID,  rating, comment);
+	            reviews.insert(r);
+
+	           	        }}
+
+	        read.close();
+	        System.out.println(" File loaded successfully from file: " + fileName);
+
+	    } catch (Exception e) {
+	        System.out.println("Error reading orders file: " + e.getMessage());
+	    }
+	}
 }
