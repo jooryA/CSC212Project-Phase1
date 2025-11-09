@@ -128,8 +128,18 @@ public class ECommerceSystem {
 					
 					break;
 			case 6:// View Customer Reviews
+			    System.out.print("Enter Customer ID: ");
+			   int CustomerID= input.nextInt();
+			    Customer c = AllCustomers.SearchCustomerById(CustomerID);
+			    if (c != null) {
+			        c.displayReviews();
+			    } else {
+			        System.out.println("Customer Not Found!");
+			    }
+			    break;
+
+
 				
-				break;
 			case 7:// Show Top 3 Products (Based on Rating)
 				ES.displayTop3Products();
 				break;
