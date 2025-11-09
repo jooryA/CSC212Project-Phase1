@@ -147,7 +147,14 @@ public class ECommerceSystem {
 			    break;
 
 			case 9:// Show Common Products Reviewed by Two Customers(Rated above 4)
-				break;
+			
+			    System.out.print("Enter first customer ID: ");
+			    int c1 = input.nextInt();
+			    System.out.print("Enter second customer ID: ");
+			    int c2 = input.nextInt();
+
+			    ES.showCommonProductsAbove4(c1, c2);
+			    break;
 			case 10:// exit
 				System.out.println("Thank you! , Good bye");
 				break;
