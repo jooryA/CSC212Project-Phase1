@@ -77,7 +77,7 @@ public class Products {
 		}
 	}
 
-	public void displayOutOfStock() {
+	public void outOfStockProducts() {
 		if(products.empty()) {
 			System.out.println("No products exist");
 			return;
@@ -121,6 +121,20 @@ public class Products {
 		}catch (Exception e) {
 			System.out.println("Error in reading file: "+e.getMessage());
 		}
+	}
+	
+	public void displayProducts() {
+		if(products.empty()) {
+			System.out.println("No products found. ");
+			return;
+		}		
+		products.findfirst();
+		while(!products.last()) { // display all products until the last order ( last one not included)
+			Product pro =products.retrieve();
+			System.out.println(pro.toString()); 
+		}
+		Product pro =products.retrieve();// displays the last product
+		System.out.println(pro.toString()); 
 	}
 	
 }
