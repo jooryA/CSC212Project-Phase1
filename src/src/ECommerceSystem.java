@@ -227,7 +227,78 @@ public class ECommerceSystem {
 				System.out.println(ord.getOrderId());
 
 	}
-	
+	// Show common products reviewed by two customers with Avg > 4
+	private static void showCommonProductsAbove4(int c1, int c2) {
+
+	    if (AllReviews == null || AllProducts == null) {
+	        System.out.println("Data not loaded!");
+	        return;
+	    }
+
+	    LinkedList<Integer> customer1Products = new LinkedList<>();
+	    LinkedList<Integer> customer2Products = new LinkedList<>();
+	    LinkedList<Review> reviewsList = AllReviews.getReviews();
+
+	    // product lists for both customers
+	    if (!reviewsList.empty()) {
+	        reviewsList.findfirst();
+	        while (!reviewsList.last()) {
+	            Review r = reviewsList.retrieve();
+	            Product p = AllProducts.searchProductById(r.getProductID());
+
+	            // only consider products whose average rating > 4
+	            if (p != null && p.getAverageRating() > 4) {
+	                if (r.getCustomerID() == c1) customer1Products.insert(r.getProductID());
+	                if (r.getCustomerID() == c2) customer2Products.insert(r.getProductID());
+	            }
+	            reviewsList.findnext();
+	        }
+	        // handle the last review
+	        Review r = reviewsList.retrieve();
+	        Product p = AllProducts.searchProductById(r.getProductID());
+	        if (p != null && p.getAverageRating() > 4) {
+	            if (r.getCustomerID() == c1) customer1Products.insert(r.getProductID());
+	            if (r.getCustomerID() == c2) customer2Products.insert(r.getProductID());
+	        }
+	    }
+
+	    //  Compare lists and print common products 
+	    boolean found = false;
+	    if (!customer1Products.empty() && !customer2Products.empty()) {
+
+	        customer1Products.findfirst();
+	        while (true) {
+	            int pid = customer1Products.retrieve();
+
+	            
+	            boolean exists = false; // 'exists' is used to check if the current product ID also exists in customer2Products list
+	            customer2Products.findfirst();
+	            while (true) {
+	                if (customer2Products.retrieve() == pid) { exists = true; break; }
+	                if (customer2Products.last()) break;
+	                customer2Products.findnext();
+	            }
+
+	            if (exists) {
+	                Product p2 = AllProducts.searchProductById(pid);
+	                if (p2 != null) {
+	                    System.out.println("Product ID: " + p2.getProductId()
+	                                     + ", Name: " + p2.getName()
+	                                     + ", Avg Rating: " + p2.getAverageRating());
+	                    found = true;
+	                }
+	            }
+
+	            if (customer1Products.last()) break;
+	            customer1Products.findnext();
+	        }
+	    }
+
+	    if (!found) {
+	        System.out.println("No common products reviewed by both customers with Avg > 4.");
+	    }
+	}
+
 	
 	
 	
