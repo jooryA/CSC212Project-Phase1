@@ -6,7 +6,7 @@ import java.io.File;
 
 public class Products {
 	
-	private LinkedList<Product> products;
+	public  LinkedList<Product> products;
 	
 	public Products(LinkedList<Product> products) {
 		this.products=products;
@@ -43,7 +43,7 @@ public class Products {
 			System.out.println("Product with this Id does not exist.");
 	}
 	
-	public Product searchProductById(int id) {
+	public  Product searchProductById(int id) {
 		if(products.empty())
 			return null;    //No products in the list
 		else {
@@ -136,5 +136,13 @@ public class Products {
 		Product pro =products.retrieve();// displays the last product
 		System.out.println(pro.toString()); 
 	}
+
+	public LinkedList<Product> getProducts() {
+		return products;
+	}
+
+	
+	
+	
 	
 }

@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 public class Orders {
 	private  LinkedList<Order> orders;
 	private Customers customers; 
+	private Products productList;
 	
 	
 	public Orders(LinkedList<Customer> customers ,LinkedList<Order> orders) {
@@ -36,22 +37,48 @@ public class Orders {
 		return null; //no order found with same ID	
 	}
 	
+	public void CreateOrder(Order ord) {
+	    if (SearchOrderByID(ord.getOrderId()) == null) {
+	        orders.insert(ord);
+	        AttachOrderToCustomer(ord);
+	        System.out.println("Added Successfully, Order ID: " + ord.getOrderId());
+
+	        // decrement the stock for each product
+	        LinkedList<Integer> ids = ord.getProductIds();
+	        if (!ids.empty()) {
+	            ids.findfirst();
+	            while (true) {
+	                int pid = ids.retrieve();
+
+	                Product p = productList.searchProductById(pid); //search for the product from the list
+	                if (p != null) {
+	             
+	                    if (p.getStock() > 0) {
+	                        p.setStock(p.getStock() - 1);
+	                    } else {
+	                        System.out.println("Product " + pid + " is out of stock.");
+	                    }
+	                } else {
+	                    System.out.println("Product " + pid + " not found.");
+	                }
+
+	                if (ids.last()) break;   
+	                ids.findnext();
+	            }
+	        }
+	    } else {
+	        System.out.println("Order already exists!");
+	    }
+	}
+
 	public void AttachOrderToCustomer(Order newOrd) {// Every order must be linked to the customer who made it
 		Customer c=customers.SearchCustomerById(newOrd.getCustomerId());
 		if(c==null)
 			System.out.println("No Customers Found");
 		else
-			c.PlaceOrder(newOrd);	
+			c.PlaceOrder(newOrd);	//// Place a new order for this specific customer
 	}
-	public void CreateOrder(Order ord) { 
-		if(SearchOrderByID(ord.getOrderId())==null) {
-			orders.insert(ord);// should i add it to the end of the list?
-			AttachOrderToCustomer(ord);
-		System.out.println("Added Successfully, Order ID: "+ord.getOrderId());}
-		else
-			System.out.println("Order ID: "+ord.getOrderId()+" Already exists");	
-		
-	}
+
 	public void CancelOrder(int id) {
 		Order o =SearchOrderByID(id);
 		if(o==null)

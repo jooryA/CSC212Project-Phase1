@@ -10,7 +10,7 @@ public class Order {
 	private double totalPrice;
 	private LocalDate OrderDate;
 	private String Status;
-	//private LinkedList<Products> product;
+	private LinkedList<Integer> productIds;
 	
 	public Order(int orderId, int customerId, String productId, double totalPrice, LocalDate orderDate, String status) {
 		this.OrderId = orderId;
@@ -19,17 +19,17 @@ public class Order {
 		this.totalPrice = totalPrice;
         this.OrderDate = orderDate;
 		this.Status = status;
+		this.productIds=new LinkedList<>();
+		addId(productId);
+		
+	}
+	public void addId(String id) {
+		String IDs[]=id.split(";");
+		for(int i=0 ; i<IDs.length ;i++) {
+			productIds.insert(Integer.parseInt(IDs[i].trim()));
+		}
 	}
 	
-	
-	public void UpdateOrder(Order ord) {
-		this.OrderId =ord.OrderId;
-		this.customerId	=ord.customerId;
-		this.ProductId=ord.ProductId;
-		this.totalPrice =ord.totalPrice;
-		this.OrderDate =ord.OrderDate;
-		this.Status =ord.Status;
-	}
 	public void UpdateOrderStatus(String S) {
 		this.Status =S;
 	}
@@ -51,6 +51,11 @@ public class Order {
 	public LocalDate getOrderDate() {return OrderDate;}
 	
 	public String getStatus() {return Status;}
+	
+	public LinkedList<Integer> getProductIds() {
+		return productIds;
+	}
+	
 	
 	
 	

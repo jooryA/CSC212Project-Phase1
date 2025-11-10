@@ -23,7 +23,7 @@ public class Customer {
 	public void addReview(Review r) {
 		reviews.insert(r);
 	}
-	public void displayOrders() {
+	public void viewOrdersHistoy() { 
 		if(!orders.empty()) {
 			System.out.println("Orders for Customer : "+name );
 			orders.findfirst();
@@ -75,7 +75,7 @@ public void display() {
 		System.out.println("Customer ID :" + CustomerId);
 		System.out.println("name  :" + name);
 		System.out.println("email :" + email);
-		displayOrders();
+		viewOrdersHistoy();
 		displayReviews();
 		
 	

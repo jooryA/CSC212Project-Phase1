@@ -5,7 +5,7 @@ public class Product {
 	private String name;
 	private double price;
 	private int stock;
-	private LinkedList<Review> reviews;  
+	private LinkedList<Review> reviews;  //each product has its own reviews
 	
 	public Product(int productId, String name, double price, int stock) {   //a constructor
 		this.productId = productId;
@@ -57,7 +57,12 @@ public class Product {
 		return stock;
 	}
 
-	@Override
+	
+	
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
 	public String toString() {
 		return "Product Id: " + productId + ", name: " + name + ", price: " + price + ", stock: " + stock
 				+ ", reviews: " + reviews ;
