@@ -177,6 +177,12 @@ public class ECommerceSystem {
 	} // End of main
 		// Method read from files
 
+
+	public void ReadData() {
+	AllProducts.loadProducts("C:\Users\lenovo\eclipse-workspace\CSC212Project-Phase1\CSC212Project-Phase1\dataset");	
+	}
+	
+	
 	public void displayTop3Products() {
 		if (ProductsList.empty()) {
 			System.out.println("No Products in in the list.");
