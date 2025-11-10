@@ -35,6 +35,7 @@ public class ECommerceSystem {
 // we can add more options
 	public static void main(String[] args) {
 		ECommerceSystem ES = new ECommerceSystem();
+		ES.ReadData();
 		int choice1=0;
 		int choice;   
 
@@ -78,10 +79,7 @@ public class ECommerceSystem {
 					int stock = input.nextInt();
 
 					Product p = new Product(id, name, price, stock);
-
-					if (AllProducts != null) {
-						AllProducts.addProduct(p);
-					} 
+					AllProducts.addProduct(p);
 					break;
 				case 2:// remove product 
 					System.out.println("Enter product id: ");
@@ -165,7 +163,7 @@ public class ECommerceSystem {
 					AllReviews.displayReview();
 					break;
 					
-				case 13: 
+				case 13: // get average rating
 					System.out.println("Enter product id");
 					id= input.nextInt();
 					p = AllProducts.searchProductById(id);
@@ -205,10 +203,7 @@ public class ECommerceSystem {
 					String email = input.next();
 
 				    Customer C = new Customer(id, name, email);
-
-					if (AllCustomers != null) {
-						AllCustomers.registerNewCustomer(C);
-					}  
+				    AllCustomers.registerNewCustomer(C);
 					break;
 				case 2:// place an order
 					System.out.print("Enter Order ID: ");
@@ -227,10 +222,7 @@ public class ECommerceSystem {
 
 					DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/M/yyyy");
 				    Order O = new Order(id, cusID , proID,priceorder,LocalDate.parse(Date,df) , status);
-
-					if (AllOrders != null) {
-						AllOrders.CreateOrder(O);
-					} 
+				    AllOrders.CreateOrder(O);
 					
 					break;
 				case 3: //view order history
@@ -246,44 +238,43 @@ public class ECommerceSystem {
 						AllOrders.CancelOrder(id);
 						
 						break;
-				case 5:// View Customer Reviews
-				    System.out.print("Enter Customer ID: ");
-				   int CustomerID= input.nextInt();
-				    Customer c = AllCustomers.SearchCustomerById(CustomerID);
-				    if (c != null) {
-				        c.displayReviews();
-				    } else {
-				        System.out.println("Customer Not Found!");
-				    }
-				    break;
-
-
+				case 5:// add review
+					System.out.print("Enter review ID: ");
+					id = input.nextInt();
+					input.nextLine();//remove spaces
+					System.out.print("Enter Customer ID : ");
+					cusID=input.nextInt(); 
+					System.out.print("Enter Product ID : ");
+					int productID=input.nextInt(); 
+					System.out.print("Enter rating: ");
+					int rating = input.nextInt();
+					System.out.print("Enter comment: ");
+					String comment = input.nextLine();
+					Review rev = new Review(id,cusID,productID,rating , comment);
+					AllReviews.addNewReview(rev);
 					
-				case 6:// Show Top 3 Products (Based on Rating)
+				    break;
+				    
+				case 6 :// update review
+					
+					System.out.println("Enter Review id");
+					id= input.nextInt();
+					rev = AllReviews.searchReviewtById(id);
+					AllReviews.updateReview(id, rev);
+					break;
+					
+				case 7:// get average rating	
+					System.out.println("Enter product id");
+					id= input.nextInt();
+					Product p = AllProducts.searchProductById(id);
+					System.out.println("Average rating: "+ p.getAverageRating());
+					break;
+					
+					
+				case 8:// Show Top 3 Products (Based on Rating)
 					ES.displayTop3Products();
 					break;
-				case 7:// Show Orders Between Two Dates
-				    System.out.print("Enter Start Date (d/M/yyyy): ");
-				    String start = input.next();
-				    System.out.print("Enter End Date (d/M/yyyy): ");
-				    String end = input.next();
-
-				    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("d/M/yyyy");
-				    LocalDate d1 = LocalDate.parse(start, dtf);
-				    LocalDate d2 = LocalDate.parse(end, dtf);
-
-				    ES.displayOrdersBetween2Dates(d1,d2);
-				    break;
-
-				case 8:// Show Common Products Reviewed by Two Customers(Rated above 4)
 				
-				    System.out.print("Enter first customer ID: ");
-				    int c1 = input.nextInt();
-				    System.out.print("Enter second customer ID: ");
-				    int c2 = input.nextInt();
-
-				    ES.showCommonProductsAbove4(c1, c2);
-				    break;
 				case 9:// exit
 					System.out.println("Thank you! , Good bye");
 					break;
@@ -300,142 +291,6 @@ public class ECommerceSystem {
 			
 
 		}while(choice1 !=3); //end of ' outer do' picking role 
-		do {
-			System.out.println("Welcome to the E-Commerce System ");
-			System.out.println("-----------------------------------");
-			System.out.println("1-");
-			
-			System.out.println("2- Add a Customer");
-			System.out.println("3- Place an Order");
-			System.out.println("4- Add Reviews to product");
-			System.out.println("5- View Customer Reviews");
-			System.out.println("6- Show Top 3 Products (Based on Rating)");
-			System.out.println("7- Show Orders Between Two Dates");
-			System.out.println("8- Show Common Products Reviewed by Two Customers(Rated above 4)");
-			System.out.println("9- Exit");
-
-			System.out.print("Enter your choice: ");
-			choice = input.nextInt();
-
-			switch (choice) {
-			case 1:// add product
-				System.out.print("Enter Product ID: ");
-				int id = input.nextInt();
-				input.nextLine();//remove spaces
-				System.out.print("Enter Product Name: ");
-				String name = input.nextLine(); 
-				System.out.print("Enter Product Price: ");
-				double price = input.nextDouble();
-				System.out.print("Enter Product Stock: ");
-				int stock = input.nextInt();
-
-				Product p = new Product(id, name, price, stock);
-
-				if (AllProducts != null) {
-					AllProducts.addProduct(p);
-				} 
-				break;
-			case 2:// add customer
-				System.out.print("Enter Customer ID: ");
-				id = input.nextInt();
-				input.nextLine();//remove spaces
-				System.out.print("Enter Customer Name: ");
-				name = input.next(); 
-				System.out.print("Enter Customer Email: ");
-				String email = input.next();
-
-			    Customer C = new Customer(id, name, email);
-
-				if (AllCustomers != null) {
-					AllCustomers.registerNewCustomer(C);
-				} 
-				break;
-			case 3:// place an order
-				System.out.print("Enter Order ID: ");
-				id = input.nextInt();
-				input.nextLine();//remove spaces
-				System.out.print("Enter Customer ID : ");
-				int cusID=input.nextInt(); 
-				System.out.print("Enter Product ID : ");
-				String proID=input.next(); 
-				System.out.print("Enter Total Price: ");
-				price = input.nextDouble();
-				System.out.print("Enter Order Date in dd/MM/yyyy Format: ");
-				String Date = input.next();
-				System.out.print("Enter Order Status ( pending , shipped , delivered or canceled )");
-				String status = input.next();
-
-				DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/M/yyyy");
-			    Order O = new Order(id, cusID , proID,price,LocalDate.parse(Date,df) , status);
-
-				if (AllOrders != null) {
-					AllOrders.CreateOrder(O);
-				} 
-				
-				break;
-				case 4:// add review
-					System.out.print("Enter Review ID: ");
-					id = input.nextInt();
-					input.nextLine();//remove spaces
-					System.out.print("Enter Customer ID : ");
-					cusID=input.nextInt(); 
-					System.out.print("Enter Product ID : ");
-					int productID=input.nextInt(); 
-					System.out.print("Enter your Rating: ");
-					int rating= input.nextInt();
-					System.out.print("Enter Your Comment: ");
-					String comment = input.nextLine();
-					
-				    Review R = new Review(id,cusID,productID,rating,comment);
-					AllReviews.addNewReview(R);
-					
-					break;
-			case 5:// View Customer Reviews
-			    System.out.print("Enter Customer ID: ");
-			   int CustomerID= input.nextInt();
-			    Customer c = AllCustomers.SearchCustomerById(CustomerID);
-			    if (c != null) {
-			        c.displayReviews();
-			    } else {
-			        System.out.println("Customer Not Found!");
-			    }
-			    break;
-
-
-				
-			case 6:// Show Top 3 Products (Based on Rating)
-				ES.displayTop3Products();
-				break;
-			case 7:// Show Orders Between Two Dates
-			    System.out.print("Enter Start Date (d/M/yyyy): ");
-			    String start = input.next();
-			    System.out.print("Enter End Date (d/M/yyyy): ");
-			    String end = input.next();
-
-			    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("d/M/yyyy");
-			    LocalDate d1 = LocalDate.parse(start, dtf);
-			    LocalDate d2 = LocalDate.parse(end, dtf);
-
-			    ES.displayOrdersBetween2Dates(d1,d2);
-			    break;
-
-			case 8:// Show Common Products Reviewed by Two Customers(Rated above 4)
-			
-			    System.out.print("Enter first customer ID: ");
-			    int c1 = input.nextInt();
-			    System.out.print("Enter second customer ID: ");
-			    int c2 = input.nextInt();
-
-			    ES.showCommonProductsAbove4(c1, c2);
-			    break;
-			case 9:// exit
-				System.out.println("Thank you! , Good bye");
-				break;
-
-			}// end of manager switch
-
-		} while (choice != 9);
-		// end do-while
 
 	} // End of main
 		// Method read from files
