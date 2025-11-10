@@ -179,7 +179,11 @@ public class ECommerceSystem {
 
 
 	public void ReadData() {
-	AllProducts.loadProducts("C:\Users\lenovo\eclipse-workspace\CSC212Project-Phase1\CSC212Project-Phase1\dataset");	
+	AllProducts.loadProducts("/Users/daliamubarak/Desktop/CSC212Project-Phase1/dataset/products.csv");
+	AllCustomers.loadCustomers("/Users/daliamubarak/Desktop/CSC212Project-Phase1/dataset/customers.csv");
+	AllOrders.loadOrders("/Users/daliamubarak/Desktop/CSC212Project-Phase1/dataset/orders.csv");
+	AllReviews.loadReviews("/Users/daliamubarak/Desktop/CSC212Project-Phase1/dataset/reviews.csv");
+	
 	}
 	
 	
