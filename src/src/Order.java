@@ -30,8 +30,8 @@ public class Order {
 		this.OrderDate =ord.OrderDate;
 		this.Status =ord.Status;
 	}
-	public void UpdateOrderStatus(Order ord) {
-		this.Status =ord.Status;
+	public void UpdateOrderStatus(String S) {
+		this.Status =S;
 	}
 	
 	public String toString() {

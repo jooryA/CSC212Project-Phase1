@@ -52,23 +52,13 @@ public class Orders {
 			System.out.println("Order ID: "+ord.getOrderId()+" Already exists");	
 		
 	}
-	public void RemoveOrder(int id) {
-		if(!orders.empty()) {
-			orders.findfirst();
-			while(!orders.last()) { // loop from the first order till the order before last
-			if(orders.retrieve().getOrderId()==id){// check if matching ID is found ,then remove it
-				orders.remove();// remove order that has the same order id
-			return;
-			}else
-				orders.findnext();//if no matching id is found , continue the loop
+	public void CancelOrder(int id) {
+		Order o =SearchOrderByID(id);
+		if(o==null)
+		System.out.println("No order found with this ID to Cancel");
+		else {
+			o.UpdateOrderStatus("Cancelled");
 		}
-			if(orders.retrieve().getOrderId()==id){// checking the last element
-				orders.remove();
-			return;
-			}
-		System.out.println("No order found with this ID to delete");
-	}else
-		System.out.println("No order found with this ID to delete");
 	}
 	
 	public void displayOrders() {
@@ -81,10 +71,10 @@ public class Orders {
 		orders.findfirst();
 		while(!orders.last()) { // display all orders until the last order ( last one not included)
 			Order ord =orders.retrieve();
-			ord.toString();
+			System.out.println(ord.toString());
 		}
 		Order ord =orders.retrieve();// displays the last order
-		ord.toString();	
+		System.out.println(ord.toString());	
 	}
 	public LinkedList<Order> getOrders() {
 		return orders;
