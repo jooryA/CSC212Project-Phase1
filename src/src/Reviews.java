@@ -125,7 +125,7 @@ public class Reviews {
 	
 	
 	
-	public void loadOrders(String fileName) {
+	public void loadReviews(String fileName) {
 	    try {
 	        File file = new File(fileName);
 	        Scanner read = new Scanner(file);

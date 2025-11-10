@@ -56,7 +56,7 @@ public class Customers {
     }
 	
 	
-	public void loadProducts(String fileName) {
+	public void loadCustomers(String fileName) {
 		try {
 			File file = new File(fileName);
 			Scanner read = new Scanner(file);
