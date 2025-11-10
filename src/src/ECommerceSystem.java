@@ -36,7 +36,7 @@ public class ECommerceSystem {
 	public static void main(String[] args) {
 		ECommerceSystem ES = new ECommerceSystem();
 		ES.ReadData();
-		int choice1=0;
+		int choice1;
 		int choice;   
 
 		do {
@@ -45,6 +45,7 @@ public class ECommerceSystem {
 			System.out.println("1- Manager.");
 			System.out.println("2- Customer.");
 			System.out.println("3- Exit.");
+			choice1= input.nextInt();
 			
 			switch(choice1) {
 			case 1: //Manager
@@ -297,10 +298,10 @@ public class ECommerceSystem {
 
 
 	public void ReadData() {
-	AllProducts.loadProducts("/Users/daliamubarak/Desktop/CSC212Project-Phase1/dataset/products.csv");
-	AllCustomers.loadCustomers("/Users/daliamubarak/Desktop/CSC212Project-Phase1/dataset/customers.csv");
-	AllOrders.loadOrders("/Users/daliamubarak/Desktop/CSC212Project-Phase1/dataset/orders.csv");
-	AllReviews.loadReviews("/Users/daliamubarak/Desktop/CSC212Project-Phase1/dataset/reviews.csv");
+	AllProducts.loadProducts("C:\\Users\\lenovo\\eclipse-workspace\\CSC212Project-Phase1\\dataset\\products.csv");
+	AllCustomers.loadCustomers("C:\\Users\\lenovo\\eclipse-workspace\\CSC212Project-Phase1\\dataset\\customers.csv");
+	AllOrders.loadOrders("C:\\Users\\lenovo\\eclipse-workspace\\CSC212Project-Phase1\\dataset\\orders.csv");
+	AllReviews.loadReviews("C:\\Users\\lenovo\\eclipse-workspace\\CSC212Project-Phase1\\dataset\\reviews.csv");
 	
 	}
 	
