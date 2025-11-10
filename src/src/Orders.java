@@ -80,13 +80,36 @@ public class Orders {
 	}
 
 	public void CancelOrder(int id) {
-		Order o =SearchOrderByID(id);
-		if(o==null)
-		System.out.println("No order found with this ID to Cancel");
-		else {
-			o.UpdateOrderStatus("Cancelled");
-		}
+	    Order o = SearchOrderByID(id);
+
+	    if (o == null) {
+	        System.out.println("No order found with this ID to Cancel");
+	    } else {
+	        o.UpdateOrderStatus("Cancelled");
+	        System.out.println("Order " + id + " has been cancelled successfully.");
+
+	        //increment the stock when cancel an order
+	        LinkedList<Integer> prodIDs = o.getProductIds();
+
+	        if (!prodIDs.empty()) {
+	            prodIDs.findfirst();
+	            while (true) {
+	                int pid = prodIDs.retrieve();
+
+	                Product p = productList.searchProductById(pid);
+	                if (p != null) {
+	                    p.setStock(p.getStock() + 1); 
+	                } else {
+	                    System.out.println("Warning: Product " + pid + " not found in product list.");
+	                }
+
+	                if (prodIDs.last()) break;
+	                prodIDs.findnext();
+	            }
+	        }
+	    }
 	}
+
 	
 	public void displayOrders() {
 		if(orders.empty()) {
