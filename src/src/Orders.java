@@ -223,7 +223,8 @@ public class Orders {
 	            int customerId = Integer.parseInt(data[1].trim().replace("\"", ""));
 	            String productId = data[2].trim().replace("\"", "");
 	            double totalPrice = Double.parseDouble(data[3]);
-	            LocalDate orderDate = LocalDate.parse(data[4],df);
+	            
+	            String orderDate = data[2].trim();
 	            String status = data[5].trim();
 
 	            Order o = new Order(orderId, customerId, productId, totalPrice, orderDate, status);
