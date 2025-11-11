@@ -138,7 +138,7 @@ public class Orders {
 	    try {
 	        File file = new File(fileName);
 	        Scanner read = new Scanner(file);
-	        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	        System.out.println("Loading orders from: " + fileName);
 	        
 	        if (read.hasNextLine()) {
@@ -151,12 +151,12 @@ public class Orders {
 
 	            String[] data = line.split(",");
 
-	            int orderId = Integer.parseInt(data[0]);
-	            int customerId = Integer.parseInt(data[1]);
-	            String productId = data[2];
+	            int orderId = Integer.parseInt(data[0].trim().replace("\"", ""));
+	            int customerId = Integer.parseInt(data[1].trim().replace("\"", ""));
+	            String productId = data[2].trim().replace("\"", "");
 	            double totalPrice = Double.parseDouble(data[3]);
 	            LocalDate orderDate = LocalDate.parse(data[4],df);
-	            String status = data[5];
+	            String status = data[5].trim();
 
 	            Order o = new Order(orderId, customerId, productId, totalPrice, orderDate, status);
 	            orders.insert(o); // Add order to LinkedList

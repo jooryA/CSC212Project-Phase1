@@ -216,12 +216,12 @@ public class ECommerceSystem {
 					String proID=input.next(); 
 					System.out.print("Enter Total Price: ");
 					double priceorder = input.nextDouble();
-					System.out.print("Enter Order Date in dd/MM/yyyy Format: ");
+					System.out.print("Enter Order Date in yyyy/MM/dd Format: ");
 					String Date = input.next();
 					System.out.print("Enter Order Status ( pending , shipped , delivered or canceled )");
 					String status = input.next();
 
-					DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/M/yyyy");
+					DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-mm-dd");
 				    Order O = new Order(id, cusID , proID,priceorder,LocalDate.parse(Date,df) , status);
 				    AllOrders.CreateOrder(O);
 					
@@ -298,10 +298,10 @@ public class ECommerceSystem {
 
 
 	public void ReadData() {
-	AllProducts.loadProducts("C:\\Users\\lenovo\\eclipse-workspace\\CSC212Project-Phase1\\dataset\\products.csv");
-	AllCustomers.loadCustomers("C:\\Users\\lenovo\\eclipse-workspace\\CSC212Project-Phase1\\dataset\\customers.csv");
-	AllOrders.loadOrders("C:\\Users\\lenovo\\eclipse-workspace\\CSC212Project-Phase1\\dataset\\orders.csv");
-	AllReviews.loadReviews("C:\\Users\\lenovo\\eclipse-workspace\\CSC212Project-Phase1\\dataset\\reviews.csv");
+	AllProducts.loadProducts("/Users/daliamubarak/Desktop/CSC212Project-Phase1/dataset/prodcuts.csv");
+	AllCustomers.loadCustomers("/Users/daliamubarak/Desktop/CSC212Project-Phase1/dataset/customers.csv");
+	AllOrders.loadOrders("/Users/daliamubarak/Desktop/CSC212Project-Phase1/dataset/orders.csv");
+	AllReviews.loadReviews("/Users/daliamubarak/Desktop/CSC212Project-Phase1/dataset/reviews.csv");
 	
 	}
 	
