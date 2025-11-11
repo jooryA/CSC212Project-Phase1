@@ -206,7 +206,7 @@ public class ECommerceSystem {
 				    Customer C = new Customer(id, name, email);
 				    AllCustomers.registerNewCustomer(C);
 					break;
-				case 2:// place an order
+				case 2:// place an order//نضيف لوب ، اشياء ثانيه بعد 
 					System.out.print("Enter Order ID: ");
 					id = input.nextInt();
 					input.nextLine();//remove spaces
@@ -293,10 +293,10 @@ public class ECommerceSystem {
 
 
 	public void ReadData() {
-	AllProducts.loadProducts("C:\\Users\\lenovo\\eclipse-workspace\\CSC212Project-Phase1\\dataset\\prodcuts.csv");
-	AllCustomers.loadCustomers("C:\\Users\\lenovo\\eclipse-workspace\\CSC212Project-Phase1\\dataset\\customers.csv");
-	AllOrders.loadOrders("C:\\Users\\lenovo\\eclipse-workspace\\CSC212Project-Phase1\\dataset\\orders.csv");
-	AllReviews.loadReviews("C:\\Users\\lenovo\\eclipse-workspace\\CSC212Project-Phase1\\dataset\\reviews.csv");
+	AllProducts.loadProducts("/Users/daliamubarak/Desktop/CSC212Project-Phase1/dataset/prodcuts.csv");
+	AllCustomers.loadCustomers("/Users/daliamubarak/Desktop/CSC212Project-Phase1/dataset/customers.csv");
+	AllOrders.loadOrders("/Users/daliamubarak/Desktop/CSC212Project-Phase1/dataset/orders.csv");
+	AllReviews.loadReviews("/Users/daliamubarak/Desktop/CSC212Project-Phase1/dataset/reviews.csv");
 	
 	}
 	
