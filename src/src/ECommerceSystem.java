@@ -215,14 +215,9 @@ public class ECommerceSystem {
 					System.out.print("Enter Product ID : ");
 					String proID=input.next(); 
 					System.out.print("Enter Total Price: ");
-					double priceorder = input.nextDouble();
-					System.out.print("Enter Order Date in yyyy/MM/dd Format: ");
-					String Date = input.next();
-					System.out.print("Enter Order Status ( pending , shipped , delivered or canceled )");
-					String status = input.next();
-
-					DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-mm-dd");
-				    Order O = new Order(id, cusID , proID,priceorder,LocalDate.parse(Date,df) , status);
+					double price=input.nextInt();
+				String orderDate=LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-mm-dd"));
+				    Order O = new Order(id, cusID , proID,price , "pending",orderDate);
 				    AllOrders.CreateOrder(O);
 					
 					break;

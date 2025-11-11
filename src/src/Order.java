@@ -12,12 +12,14 @@ public class Order {
 	private String Status;
 	private LinkedList<Integer> productIds;
 	
-	public Order(int orderId, int customerId, String productId, double totalPrice, LocalDate orderDate, String status) {
+	public Order(int orderId, int customerId, String productId, double totalPrice, String orderDate, String status) {
 		this.OrderId = orderId;
 		this.customerId = customerId;
 		this.ProductId = productId;
 		this.totalPrice = totalPrice;
-        this.OrderDate = orderDate;
+		
+        DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        OrderDate=LocalDate.parse(orderDate.replace("\"","").trim(),formatter);
 		this.Status = status;
 		this.productIds=new LinkedList<>();
 		addId(productId);
