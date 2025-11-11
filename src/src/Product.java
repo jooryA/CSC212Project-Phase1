@@ -16,11 +16,9 @@ public class Product {
 	}
 	
 	public void updateProduct(Product p) {       
-	this.productId = p.productId;
 	this.name = p.name;
 	this.price = p.price;
 	this.stock = p.stock;
-	this.reviews = p.reviews;
 	}
 	
 	public double getAverageRating() {
@@ -57,7 +55,8 @@ public class Product {
 		return stock;
 	}
 
-	
+	public double getPrice() { return price; }
+
 	
 	public void setStock(int stock) {
 		this.stock = stock;

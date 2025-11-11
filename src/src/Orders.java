@@ -15,7 +15,11 @@ public class Orders {
 		this.orders = orders;
 	   this.customers=new Customers(customers); 
 	}
-	
+	public Orders(LinkedList<Customer> customers , LinkedList<Order> orders, LinkedList<Product>productList) {
+	    this.orders = orders;
+	    this.customers = new Customers(customers);
+	    this.productList = new Products (productList);
+	}
 	
 	public Orders() {
 		customers=new Customers(); 
@@ -38,36 +42,72 @@ public class Orders {
 	}
 	
 	public void CreateOrder(Order ord) {
-	    if (SearchOrderByID(ord.getOrderId()) == null) {
-	        orders.insert(ord);
-	        AttachOrderToCustomer(ord);
-	        System.out.println("Added Successfully, Order ID: " + ord.getOrderId());
-
-	        // decrement the stock for each product
-	        LinkedList<Integer> ids = ord.getProductIds();
-	        if (!ids.empty()) {
-	            ids.findfirst();
-	            while (true) {
-	                int pid = ids.retrieve();
-
-	                Product p = productList.searchProductById(pid); //search for the product from the list
-	                if (p != null) {
-	             
-	                    if (p.getStock() > 0) {
-	                        p.setStock(p.getStock() - 1);
-	                    } else {
-	                        System.out.println("Product " + pid + " is out of stock.");
-	                    }
-	                } else {
-	                    System.out.println("Product " + pid + " not found.");
-	                }
-
-	                if (ids.last()) break;   
-	                ids.findnext();
-	            }
-	        }
-	    } else {
+	    // Check for duplicate order ID
+	    if (SearchOrderByID(ord.getOrderId()) != null) {
 	        System.out.println("Order already exists!");
+	        return;
+	    }
+
+	    //  Make sure main lists are ready before proceeding
+	    if (customers == null) {
+	        System.out.println("Customers list is not initialized");
+	        return;
+	    }
+	    if (productList == null) {
+	        System.out.println("Products list is not initialized");
+	        return;
+	    }
+
+	    //  Validate that the customer exists in the system
+	    Customer c = customers.SearchCustomerById(ord.getCustomerId());
+	    if (c == null) {
+	        System.out.println("Customer not found: " + ord.getCustomerId());
+	        return;
+	    }
+
+	    // Make sure every product in this order exists and is in stock
+	    LinkedList<Integer> ids = ord.getProductIds();
+	    if (!ids.empty()) {
+	        ids.findfirst();
+	        while (true) {
+	            int pid = ids.retrieve();
+	            Product p = productList.searchProductById(pid);
+
+	            if (p == null) {
+	                System.out.println("Product " + pid + " not found.");
+	                return; // Stop immediately if any product doesn’t exist
+	            }
+
+	            if (p.getStock() <= 0) {
+	                System.out.println("Product " + pid + " is out of stock.");
+	                return; // Stop immediately if any product is unavailable
+	            }
+
+	            if (ids.last()) break;
+	            ids.findnext();
+	        }
+	    }
+	 // Calculate total price 
+	    double total = OrderTotalPrice(ord);
+	    ord.setTotalPrice(total);
+
+	    
+	    // Add the order, link it to the customer, and then decrement product stock
+	    orders.insert(ord);
+	    AttachOrderToCustomer(ord);
+	    System.out.println("Added Successfully, Order ID: " + ord.getOrderId());
+	    System.out.println("Total: " + total + " , Date: " + ord.getOrderDate());
+
+	    // decrement stock for each product in the order
+	    if (!ids.empty()) {
+	        ids.findfirst();
+	        while (true) {
+	            int pid = ids.retrieve();
+	            Product p = productList.searchProductById(pid);
+	            p.setStock(p.getStock() - 1); // Decrease stock 
+	            if (ids.last()) break;
+	            ids.findnext();
+	        }
 	    }
 	}
 
@@ -80,42 +120,69 @@ public class Orders {
 	}
 
 	public void CancelOrder(int id) {
+	    // Find the order by its ID
 	    Order o = SearchOrderByID(id);
-
 	    if (o == null) {
-	        System.out.println("No order found with this ID to Cancel");
+	        System.out.println("No order found with this ID to cancel");
+	        return;
+	    }
+	    
+	    String status = o.getStatus();
+	    //  Allow cancel ONLY if status == PENDING
+	    if (!"Pending".equalsIgnoreCase(status)) {
+	        System.out.println("Order " + id + " cannot be cancelled. Only PENDING orders can be cancelled (current=" + status + ").");
 	        return;
 	    }
 
-	    // 
-	    String st = o.getStatus();
-	    if ("Delivered".equalsIgnoreCase(st)) {
-	        System.out.println("Order " + id + " cannot be cancelled (already delivered).");
+	    // Make sure product list is ready before adjusting stock
+	    if (productList == null) {
+	        System.out.println("Products list is not initialized");
 	        return;
 	    }
 
+	    // Update order status to "Cancelled"
 	    o.UpdateOrderStatus("Cancelled");
 	    System.out.println("Order " + id + " has been cancelled successfully.");
 
-	    LinkedList<Integer> prodIDs = o.getProductIds();
-	    if (!prodIDs.empty()) {
-	        prodIDs.findfirst();
+	    //  Restore stock for all products in this order
+	    LinkedList<Integer> productIDs = o.getProductIds();
+	    if (!productIDs.empty()) {
+	        productIDs.findfirst();
 	        while (true) {
-	            int pid = prodIDs.retrieve();
+	            int pid = productIDs.retrieve();
 	            Product p = productList.searchProductById(pid);
+
 	            if (p != null) {
-	                p.setStock(p.getStock() + 1);   
+	                p.setStock(p.getStock() + 1); // increase stock per product
 	            } else {
-	                System.out.println("Warning: Product " + pid + " not found in product list.");
+	                System.out.println("Product " + pid + " not found in the product list.");
 	            }
-	            if (prodIDs.last()) break;
-	            prodIDs.findnext();
+
+	            if (productIDs.last()) break;
+	            productIDs.findnext();
 	        }
 	    }
 	}
 
+		private double OrderTotalPrice(Order ord) {
+		    double sum = 0.0;
+		    if (ord == null) return sum;
+		    
+		    LinkedList<Integer> ids = ord.getProductIds();
+		    if (ids == null || ids.empty()) return sum;
 
-	
+		    ids.findfirst();
+		    while (true) {
+		        int pid = ids.retrieve();
+		        Product p = productList.searchProductById(pid);
+		        if (p != null) sum += p.getPrice();
+
+		        if (ids.last()) break;
+		        ids.findnext();
+		    }
+		    return sum;
+		}
+
 	public void displayOrders() {
 		if(orders.empty()) {
 			System.out.println("No orders found ");
@@ -127,6 +194,7 @@ public class Orders {
 		while(!orders.last()) { // display all orders until the last order ( last one not included)
 			Order ord =orders.retrieve();
 			System.out.println(ord.toString());
+			orders.findnext();
 		}
 		Order ord =orders.retrieve();// displays the last order
 		System.out.println(ord.toString());	
@@ -138,7 +206,7 @@ public class Orders {
 	    try {
 	        File file = new File(fileName);
 	        Scanner read = new Scanner(file);
-	        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-M-d");
 	        System.out.println("Loading orders from: " + fileName);
 	        
 	        if (read.hasNextLine()) {
@@ -163,11 +231,17 @@ public class Orders {
 	        }}
 
 	        read.close();
-	        System.out.println("Orders loaded successfully from file: " + fileName);
+	        System.out.println("Orders File loaded successfully from file: " + fileName);
 
 	    } catch (Exception e) {
 	        System.out.println("Error reading orders file: " + e.getMessage());
 	    }
+	}
+	public Products getProductList() {
+		return productList;
+	}
+	public void setProductList(Products productList) {
+		this.productList = productList;
 	}
 	
 	

@@ -117,7 +117,7 @@ public class Products {
 				}
 			}
 			read.close();
-	        System.out.println("File loaded successfully.");
+	        System.out.println("Products File loaded successfully.");
 		}catch (Exception e) {
 			System.out.println("Error in reading file: "+e.getMessage());
 		}
@@ -131,7 +131,8 @@ public class Products {
 		products.findfirst();
 		while(!products.last()) { // display all products until the last order ( last one not included)
 			Product pro =products.retrieve();
-			System.out.println(pro.toString()); 
+			System.out.println(pro.toString());
+			products.findnext();
 		}
 		Product pro =products.retrieve();// displays the last product
 		System.out.println(pro.toString()); 

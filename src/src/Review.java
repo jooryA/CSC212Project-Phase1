@@ -16,13 +16,12 @@ public class Review {
 		this.rating = rating;
 		this.comment = comment;
 	}
+	// Update only rating and comment, keep IDs 
 	public void updateReview(Review R) {
-		this.reviewID= R.reviewID;
-		this.CustomerId= R.CustomerId;
-		this.productID= R.productID;
-		this.rating= R.rating;
-		this.comment= R.comment;
+	    this.rating = R.rating;
+	    this.comment = R.comment;
 	}
+
 
 	public int getReviewID() {
 		return reviewID;

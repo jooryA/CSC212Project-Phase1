@@ -36,7 +36,7 @@ public class Customers {
 			
 		System.out.println("Added Successfully, Customer ID: "+ c.getCustomerId());}
 		else
-			System.out.println("Order ID: "+c.getCustomerId()+" Already exists");	
+			System.out.println("Customer ID: "+c.getCustomerId()+" Already exists");	
 		
 	}
 		
@@ -79,7 +79,7 @@ public class Customers {
 				}
 			}
 			read.close();
-	        System.out.println("File loaded successfully.");
+	        System.out.println("Customers File loaded successfully.");
 		}catch (Exception e) {
 			System.out.println("Error in reading file: "+e.getMessage());
 		}

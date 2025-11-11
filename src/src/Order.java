@@ -48,6 +48,9 @@ public class Order {
 	
 	public double getTotalPrice() {return totalPrice;}
 	
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
 	public LocalDate getOrderDate() {return OrderDate;}
 	
 	public String getStatus() {return Status;}

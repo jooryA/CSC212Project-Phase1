@@ -48,7 +48,7 @@ public class Reviews {
 	public void AttachReviewToproduct(Review r) {
 		Product p = products.searchProductById(r.getProductID());
 		if (p == null)
-			System.out.println("No Reviews Found");
+			System.out.println("Product not found for review " + r.getReviewID());
 		else
 			p.insertReview(r);
 		;
@@ -57,23 +57,42 @@ public class Reviews {
 	public void AttachReviewToCustomer(Review r) {
 		Customer c = Customers.SearchCustomerById(r.getCustomerID());
 		if (c == null)
-			System.out.println("No Reviews Found");
+			System.out.println("Customer not found for review " + r.getReviewID());
 		else
 			c.addReview(r);
 	}
 
 	// Add a new review
 	public void addNewReview(Review R) {
-		if (searchReviewtById(R.getReviewID()) == null) {
-			reviews.insert(R);
-			AttachReviewToproduct(R);
-			AttachReviewToCustomer(R);
+	    Review existing = searchReviewtById(R.getReviewID());
 
-			System.out.println("Added Successfully, Review ID: " + R.getReviewID());
-		} else
-			System.out.println("Review ID: " + R.getReviewID() + " Already exists");
+	    if (existing != null) {
+	        // Review already exists ,update it
+	        existing.updateReview(R);
+	        System.out.println("Review ID " + R.getReviewID() + " updated successfully.");
+	        return;
+	    }
 
+	    // Validate customer and product before adding new one
+	    Product p = products.searchProductById(R.getProductID());
+	    if (p == null) {
+	        System.out.println("Product not found: " + R.getProductID());
+	        return;
+	    }
+
+	    Customer c = Customers.SearchCustomerById(R.getCustomerID());
+	    if (c == null) {
+	        System.out.println("Customer not found: " + R.getCustomerID());
+	        return;
+	    }
+
+	    // Add new review and link it to the customer and product
+	    reviews.insert(R);
+	    p.insertReview(R);
+	    c.addReview(R);
+	    System.out.println("Added Successfully, Review ID: " + R.getReviewID());
 	}
+
 
 	public void updateReview(int id, Review p) {
 		Review rev = searchReviewtById(id);
@@ -94,6 +113,7 @@ public class Reviews {
 		while (!reviews.last()) { // display all Reviews until the last Review ( last one not included)
 			Review d = reviews.retrieve();
 			d.display();
+			reviews.findnext();
 		}
 		Review d = reviews.retrieve();// displays the last Review
 		d.display();
@@ -153,10 +173,10 @@ public class Reviews {
 	           	        }}
 
 	        read.close();
-	        System.out.println(" File loaded successfully from file: " + fileName);
+	        System.out.println("Reviews File loaded successfully from file: " + fileName);
 
 	    } catch (Exception e) {
-	        System.out.println("Error reading orders file: " + e.getMessage());
+	        System.out.println("Error reading Reviews file: " + e.getMessage());
 	    }
 	}
 }
