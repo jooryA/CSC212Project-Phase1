@@ -254,9 +254,10 @@ public class ECommerceSystem {
 				    // Default order status is 'pending'
 				    String status = "pending";
 				    // System automatically sets today's date
-				    java.time.LocalDate date = java.time.LocalDate.now();
+				    java.time.format.DateTimeFormatter fmt =java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd");
+				    String dateStr = java.time.LocalDate.now().format(fmt);
 
-				    Order O = new Order(id, cusID, proID, 0.0, date, status);
+				    Order O = new Order(id, cusID, proID, 0.0, dateStr, status);
 
 				    // Add the order 
 				    AllOrders.CreateOrder(O);
