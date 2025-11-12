@@ -188,14 +188,14 @@ public class Orders {
 			System.out.println("No orders found ");
 			return;
 		}
-		System.out.println("OrderId: \n, CustomerId: \n, ProductId: \n, totalPrice: \n, OrderDate: \n, Status: ");
-		
 		orders.findfirst();
 		while(!orders.last()) { // display all orders until the last order ( last one not included)
 			Order ord =orders.retrieve();
+			System.out.println("---------------------------------------------");
 			System.out.println(ord.toString());
 			orders.findnext();
 		}
+		System.out.println("---------------------------------------------");
 		Order ord =orders.retrieve();// displays the last order
 		System.out.println(ord.toString());	
 	}
@@ -224,7 +224,7 @@ public class Orders {
 	            String productId = data[2].trim().replace("\"", "");
 	            double totalPrice = Double.parseDouble(data[3]);
 	            
-	            String orderDate = data[2].trim();
+	            String orderDate = data[4].trim();
 	            String status = data[5].trim();
 
 	            Order o = new Order(orderId, customerId, productId, totalPrice, orderDate, status);

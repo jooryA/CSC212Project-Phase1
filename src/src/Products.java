@@ -20,16 +20,15 @@ public class Products {
 	public void addProduct(Product p) {
 		if(searchProductById(p.getProductId())==null) {
 			products.insert(p);
-			System.out.println(p.getName()+" is added successfully.");}
-		else 
-			System.out.println(p.getName()+" is already added.");
+			System.out.println(p.getName()+" is added successfully. Product ID: "+p.getProductId());}
+		
 	}
 	
 	public void removeProduct(int id) {
 		if(searchProductById(id)!=null) {
 			String name =products.retrieve().getName();
 			products.remove();       //the search method would move the current to the intended product so it'll get removed
-			System.out.println((name+" is removed successfully."));}
+			System.out.println(("Product ID: "+id+" is removed successfully."));}
 		else
 			System.out.println("Product with this Id does not exist.");
 	}
@@ -38,9 +37,7 @@ public class Products {
 		Product prod = searchProductById(id);
 		if(prod!=null) {
 			prod.updateProduct(p);
-			System.out.println("Product is updated successfully into "+p.getName());}
-		else 
-			System.out.println("Product with this Id does not exist.");
+			System.out.println("Product is updated successfully into Name: "+p.getName()+" ,Price:"+ p.getPrice()+" ,Stock: "+p.getStock());}
 	}
 	
 	public  Product searchProductById(int id) {
@@ -66,11 +63,11 @@ public class Products {
 		else {
 			products.findfirst();
 			while(!products.last()) {   //Looping from the first product till the one before the last
-				if(products.retrieve().getName().equals(name))
+				if(products.retrieve().getName().equalsIgnoreCase(name))
 					return products.retrieve();
 			products.findnext();}
 			
-			if(products.retrieve().getName().equals(name))     //for the last product in the list 
+			if(products.retrieve().getName().equalsIgnoreCase(name))     //for the last product in the list 
 				return products.retrieve();
 			
 			return null;   //If there's no product in the list matches the id
@@ -131,9 +128,11 @@ public class Products {
 		products.findfirst();
 		while(!products.last()) { // display all products until the last order ( last one not included)
 			Product pro =products.retrieve();
+			System.out.println("---------------------------------------------");
 			System.out.println(pro.toString());
 			products.findnext();
 		}
+		System.out.println("---------------------------------------------");
 		Product pro =products.retrieve();// displays the last product
 		System.out.println(pro.toString()); 
 	}

@@ -37,19 +37,6 @@ public class Customer {
 	}
 	
 	
-	public void displayReviews() {
-		if(!reviews.empty()) {
-			System.out.println("reviews for Customer : "+name );
-			reviews.findfirst();
-			while(!reviews.last()) {// display all reviews until the last review ( last one not included)
-			reviews.retrieve().display();
-			reviews.findnext();
-			}
-            reviews.retrieve().display();// displays the last review
-		}else
-		System.out.println("No Reviews Found for Customer :  "+name);
-	}
-	
 	
 	public int getCustomerId() {
 		return CustomerId;
@@ -72,9 +59,7 @@ public class Customer {
 	
 	
 public void display() {
-		System.out.println("Customer ID :" + CustomerId);
-		System.out.println("name  :" + name);
-		System.out.println("email :" + email);
+		System.out.println("Customer ID :" + CustomerId +"\nname  :" + name+"\nemail :" + email);
 	}
 	
 

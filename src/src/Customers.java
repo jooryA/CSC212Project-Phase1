@@ -49,9 +49,11 @@ public class Customers {
         }
         Customers.findfirst();
         while (!Customers.last()) {
+        	System.out.println("---------------------------------------------");
             Customers.retrieve().display();
             Customers.findnext();
         }
+        System.out.println("---------------------------------------------");
        Customers.retrieve().display();
     }
 	

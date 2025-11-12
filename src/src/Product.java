@@ -37,7 +37,25 @@ public class Product {
 		
 		return sum/count;
 	}
-	
+	// Returns how many reviews this product has
+	public int getReviewCount() {
+	    if (reviews == null || reviews.empty())
+	        return 0;
+
+	    int count = 0;
+	    reviews.findfirst();
+	    while (true) {
+	        if (reviews.retrieve() != null)
+	            count++;
+
+	        if (reviews.last())
+	            break;
+	        reviews.findnext();
+	    }
+
+	    return count;
+	}
+
 	public void insertReview(Review r){
 	    reviews.insert(r);
 	}
@@ -63,8 +81,7 @@ public class Product {
 	}
 
 	public String toString() {
-		return "Product Id: " + productId + ", name: " + name + ", price: " + price + ", stock: " + stock
-				+ ", reviews: " + reviews ;
+		return "Product Id: " + productId + "\nname: " + name + "\nprice: " + price + "\nstock: " + stock;
 	}
 	
 	

@@ -37,8 +37,8 @@ public class Order {
 	}
 	
 	public String toString() {
-		return "OrderId=" + OrderId + "\n, CustomerId=" + customerId + "\n, ProductId=" + ProductId + "\n, totalPrice="
-				+ totalPrice + "\n, OrderDate=" + OrderDate + "\n, Status=" + Status ;
+		return "OrderId=" + OrderId + "\nCustomerId=" + customerId + "\nProductId=" + ProductId + "\ntotalPrice="
+				+ totalPrice + "\nOrderDate=" + OrderDate + "\nStatus=" + Status ;
 	}
 	
 	

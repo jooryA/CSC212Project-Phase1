@@ -112,12 +112,42 @@ public class Reviews {
 		reviews.findfirst();
 		while (!reviews.last()) { // display all Reviews until the last Review ( last one not included)
 			Review d = reviews.retrieve();
+			System.out.println("---------------------------------------------");
 			d.display();
 			reviews.findnext();
 		}
+		System.out.println("---------------------------------------------");
 		Review d = reviews.retrieve();// displays the last Review
 		d.display();
 	}
+	//display reviews for all products for a specific customer
+	public void displayCustomerReviews(int customerId, Products productList) {
+	    if (reviews.empty()) {
+	        System.out.println("No reviews in the system yet.");
+	        return;
+	    }
+
+	    int count = 0;
+	    reviews.findfirst();
+	    while (true) {
+	        Review r = reviews.retrieve();
+	        if (r != null && r.getCustomerID() == customerId) {//check if this review actually belong to this specific customer
+	            count++;
+	            int pid = r.getProductID();// Get product information
+	            Product p = (productList != null) ? productList.searchProductById(pid) : null;
+
+	            System.out.println( "Product: " + pid +(p != null ? " - " + p.getName() : "") +" ,Rating: " + r.getRating() +" ,Comment: " + r.getComment());
+	        }
+
+	        if (reviews.last()) break;
+	        reviews.findnext();
+	    }
+
+	    if (count == 0) {
+	        System.out.println("No reviews found for customer ID: " + customerId);
+	    }
+	}
+
 
 	public LinkedList<Review> getReviews() {
 		return reviews;
@@ -145,7 +175,7 @@ public class Reviews {
 	
 	
 	
-	public void loadReviews(String fileName) {
+	public void loadReviews(String fileName,Products productList) {
 	    try {
 	        File file = new File(fileName);
 	        Scanner read = new Scanner(file);
@@ -169,6 +199,13 @@ public class Reviews {
 
 	        	Review r= new Review( reviewID,  customerID,  productID,  rating, comment);
 	            reviews.insert(r);
+	            
+	            Product p = productList.searchProductById(productID);
+                if (p != null) {
+                    p.insertReview(r);
+                } else {
+                    System.out.println("Product " + productID + " not found for review " + reviewID);
+                }
 
 	           	        }}
 

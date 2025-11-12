@@ -50,6 +50,7 @@ public class ECommerceSystem {
 			
 			switch(choice1) {
 			case 1: //Manager
+				do {
 				System.out.println();
 				System.out.println("===============================================");
 				System.out.println("1- Add a Product");
@@ -74,8 +75,13 @@ public class ECommerceSystem {
 				System.out.println();
 				switch (choice) {
 				case 1:// add product
+					Product p;
 					System.out.print("Enter Product ID: ");
 					int id = input.nextInt();
+					if(AllProducts.searchProductById(id)!=null) {
+						System.out.println("Product with ID:"+id+" Already Exist");
+						}
+					else {
 					input.nextLine();//remove spaces
 					System.out.print("Enter Product Name: ");
 					String name = input.nextLine(); 
@@ -83,9 +89,9 @@ public class ECommerceSystem {
 					double price = input.nextDouble();
 					System.out.print("Enter Product Stock: ");
 					int stock = input.nextInt();
-
-					Product p = new Product(id, name, price, stock);
-					AllProducts.addProduct(p);
+					
+					p = new Product(id, name, price, stock);
+					AllProducts.addProduct(p);}
 					break;
 				case 2:// remove product 
 					System.out.println("Enter product id to remove: ");
@@ -96,17 +102,19 @@ public class ECommerceSystem {
 				case 3:// update product
 					System.out.println("Enter product id you want to update: ");
 					int prodId = input.nextInt();
+					if(AllProducts.searchProductById(prodId)==null) {
+						System.out.println("Product with ID:"+prodId+" does not Exist");
+						}else {
 					System.out.print("Enter new product name : ");
 					input.nextLine();
-					name = input.nextLine();
-					input.nextLine();//remove spaces
+					String name = input.nextLine();
 					System.out.print("Enter new stock : ");
-					stock =input.nextInt(); 
+					int stock =input.nextInt(); 
 					System.out.print("Enter new Price: ");
-					price = input.nextDouble();
+					double price = input.nextDouble();
 					
 					p = new Product(prodId,name , price, stock);
-					AllProducts.updateProduct(prodId , p);
+					AllProducts.updateProduct(prodId , p);}
 					break;
 				case 4: { // Update order status
 				    System.out.print("Enter Order ID to update its status: ");
@@ -126,18 +134,20 @@ public class ECommerceSystem {
 				    break;
 				}
 
-				case 5:// View Customer Reviews 
-					System.out.print("Enter Customer ID to view its reviews: ");
-					   int CustomerID= input.nextInt();
-					    Customer c = AllCustomers.SearchCustomerById(CustomerID);
-					    if (c != null) {
-					        c.displayReviews();
-					    } else {
-					        System.out.println("Customer Not Found!");
-					    }
-				   
+				case 5: // View Customer Reviews
+				    System.out.print("Enter Customer ID to view its reviews: ");
+				    int customerID = input.nextInt();
+				    input.nextLine(); 
+
+				    Customer c = AllCustomers.SearchCustomerById(customerID);
+				    if (c == null) {
+				        System.out.println("Customer Not Found!");
+				        break;
+				    }
+
+				    AllReviews.displayCustomerReviews(customerID, AllProducts);
 				    break;
-					
+
 				case 6:// Show Top 3 Products (Based on Rating)
 					ES.displayTop3Products();
 					break;
@@ -192,6 +202,7 @@ public class ECommerceSystem {
 					break;
 				case 14://search for a product by its name 
 					System.out.println("Enter The name of product you want to Search for: ");
+					input.nextLine();
 					String proName=input.nextLine();
 					Product n=AllProducts.searchProductByName(proName);
 					if(n!= null)
@@ -207,7 +218,7 @@ public class ECommerceSystem {
 					System.out.println("===============================================");
 					break;
 				}// end of manager switch
-				
+				}while(choice!=16);
 				
 				
 				break; //end of case manager switch1 
@@ -348,78 +359,124 @@ public class ECommerceSystem {
 	AllProducts.loadProducts("C:\\Users\\lenovo\\eclipse-workspace\\CSC212Project-Phase1\\dataset\\prodcuts.csv");
 	AllCustomers.loadCustomers("C:\\Users\\lenovo\\eclipse-workspace\\CSC212Project-Phase1\\dataset\\customers.csv");
 	AllOrders.loadOrders("C:\\Users\\lenovo\\eclipse-workspace\\CSC212Project-Phase1\\dataset\\orders.csv");
-	AllReviews.loadReviews("C:\\Users\\lenovo\\eclipse-workspace\\CSC212Project-Phase1\\dataset\\reviews.csv");
+	AllReviews.loadReviews("C:\\Users\\lenovo\\eclipse-workspace\\CSC212Project-Phase1\\dataset\\reviews.csv",AllProducts);
 	
 	}
 	
 	
 	public void displayTop3Products() {
-		if (ProductsList.empty()) {
-			System.out.println("No Products in in the list.");
-			return;
-		}
+	    if (ProductsList.empty()) {
+	        System.out.println("No products in the list.");
+	        return;
+	    }
 
-		Product max1 = new Product(-1, "-", -1, -1);
-		Product max2 = new Product(-1, "-", -1, -1);
-		Product max3 = new Product(-1, "-", -1, -1);
+	    Product max1 = new Product(-1, "-", -1, -1);
+	    Product max2 = new Product(-1, "-", -1, -1);
+	    Product max3 = new Product(-1, "-", -1, -1);
 
-		ProductsList.findfirst();
-		while (!ProductsList.last()) {
-			Product p = ProductsList.retrieve();
-			if (p.getAverageRating() > max1.getAverageRating()) {
-				max3 = max2;
-				max2 = max1;
-				max1 = p;
-			} else if (p.getAverageRating() > max2.getAverageRating()) {
-				max3 = max2;
-				max2 = p;
-			} else if (p.getAverageRating() > max3.getAverageRating()) {
-				max3 = p;
-			}
-			ProductsList.findnext();
-		}
-		// for the last product
-		Product p = ProductsList.retrieve();
-		if (p.getAverageRating() > max1.getAverageRating()) {
-			max3 = max2;
-			max2 = max1;
-			max1 = p;
-		} else if (p.getAverageRating() > max2.getAverageRating()) {
-			max3 = max2;
-			max2 = p;
-		} else if (p.getAverageRating() > max3.getAverageRating()) {
-			max3 = p;
-		}
+	    ProductsList.findfirst();
+	    while (!ProductsList.last()) {
+	        Product p = ProductsList.retrieve();
+	        double r = p.getAverageRating();  // get product average rating
+	        int c = p.getReviewCount();       // get product review count
 
-		System.out.println("Top Products (Based on Rating)");
-		if (max1 != null)
-			System.out.println("Top 1: " + max1.getName() + ", ID: " + max1.getProductId() + ", Average rating: "
-					+ max1.getAverageRating());
-		if (max2 != null)
-			System.out.println("Top 2: " + max2.getName() + ", ID: " + max2.getProductId() + ", Average rating: "
-					+ max2.getAverageRating());
-		if (max3 != null)
-			System.out.println("Top 3: " + max3.getName() + ", ID: " + max3.getProductId() + ", Average rating: "
-					+ max3.getAverageRating());
+	        // Ignore products that have no ratings
+	        if (r > 0) {
 
+	            // Compare average rating first, then break tie by review count
+	            if (r > max1.getAverageRating() ||
+	               (r == max1.getAverageRating() && c > max1.getReviewCount())) {
+	                max3 = max2;
+	                max2 = max1;
+	                max1 = p;
+	            } else if (r > max2.getAverageRating() ||
+	                      (r == max2.getAverageRating() && c > max2.getReviewCount())) {
+	                max3 = max2;
+	                max2 = p;
+	            } else if (r > max3.getAverageRating() ||
+	                      (r == max3.getAverageRating() && c > max3.getReviewCount())) {
+	                max3 = p;
+	            }
+	        }
+	        ProductsList.findnext();
+	    }
+
+	    // Handle last product in the list
+	    Product p = ProductsList.retrieve();
+	    double r = p.getAverageRating();
+	    int c = p.getReviewCount();
+	    if (r > 0) {
+	        if (r > max1.getAverageRating() ||
+	           (r == max1.getAverageRating() && c > max1.getReviewCount())) {
+	            max3 = max2;
+	            max2 = max1;
+	            max1 = p;
+	        } else if (r > max2.getAverageRating() ||
+	                  (r == max2.getAverageRating() && c > max2.getReviewCount())) {
+	            max3 = max2;
+	            max2 = p;
+	        } else if (r > max3.getAverageRating() ||
+	                  (r == max3.getAverageRating() && c > max3.getReviewCount())) {
+	            max3 = p;
+	        }
+	    }
+
+	    System.out.println("Top Products (Based on Rating and Review Count)");
+
+	    // Print products 
+	    if (max1.getProductId() != -1)
+	        System.out.println("Top 1: " + max1.getName() + ", ID: " + max1.getProductId()
+	                + ", Avg Rating: " + max1.getAverageRating()
+	                + ", Reviews: " + max1.getReviewCount());
+
+	    if (max2.getProductId() != -1)
+	        System.out.println("Top 2: " + max2.getName() + ", ID: " + max2.getProductId()
+	                + ", Avg Rating: " + max2.getAverageRating()
+	                + ", Reviews: " + max2.getReviewCount());
+
+	    if (max3.getProductId() != -1)
+	        System.out.println("Top 3: " + max3.getName() + ", ID: " + max3.getProductId()
+	                + ", Avg Rating: " + max3.getAverageRating()
+	                + ", Reviews: " + max3.getReviewCount());
+
+	    if (max1.getProductId() == -1 && max2.getProductId() == -1 && max3.getProductId() == -1)
+	        System.out.println("No rated products found.");
 	}
-	public void displayOrdersBetween2Dates(LocalDate d1 , LocalDate d2) {
-		if(OrdersList.empty()) {
-			System.out.println("No Orders Found");
-			return;}
-			OrdersList.findfirst();
-			while(!OrdersList.last()) {
-			Order ord=OrdersList.retrieve();
-			if(ord.getOrderDate().compareTo(d1)>0 &&ord.getOrderDate().compareTo(d2)<=0) {
-			System.out.println(ord.getOrderId());
-			}
-			OrdersList.findnext();
-			}//for the last element
-			Order ord=OrdersList.retrieve();
-			if(ord.getOrderDate().compareTo(d1)>=0 &&ord.getOrderDate().compareTo(d2)<=0) 
-				System.out.println(ord.getOrderId());
 
+
+	public void displayOrdersBetween2Dates(LocalDate d1, LocalDate d2) {
+	    // Check if the orders list is empty
+	    if (OrdersList.empty()) {
+	        System.out.println("No Orders Found");
+	        return;
+	    }
+	    // If the user entered the dates in the wrong order, swap them
+	    if (d1.isAfter(d2)) {
+	        LocalDate temp = d1;
+	        d1 = d2;
+	        d2 = temp;
+	    }
+	    int count = 0; // Counter to check how many orders are printed
+	    // Go through all orders in the list
+	    OrdersList.findfirst();
+	    while (true) {
+	        Order ord = OrdersList.retrieve();
+	        // Print the order if its date is between d1 and d2
+	        if (ord.getOrderDate().compareTo(d1) >= 0 && ord.getOrderDate().compareTo(d2) <= 0) {
+	            System.out.println(ord);
+	            System.out.println("---------------------------------------------");
+	            count++;
+	        }
+	        // Stop when reaching the last order
+	        if (OrdersList.last()) break;
+	        OrdersList.findnext();
+	    }
+	    // If no orders were found between the two dates show a message
+	    if (count == 0) {
+	        System.out.println("No orders found between these two dates.");
+	    }
 	}
+
 	// Show common products reviewed by two customers with Avg > 4
 	private static void showCommonProductsAbove4(int c1, int c2) {
 

@@ -67,12 +67,8 @@ public class Review {
 	
 	public void display() {
 		
+	System.out.println("Review ID :" + reviewID+"\nCustomer ID :" + CustomerId+"\nProduct ID :" + productID+"\nRating :" + rating+"\nComment :" + comment);
 		
-		System.out.println("Review ID :" + reviewID);
-		System.out.println("Customer ID :" + CustomerId);
-		System.out.println("Product ID :" + productID);
-		System.out.println("Rating :" + rating);
-		System.out.println("Comment :" + comment);
 		
 	}
 
