@@ -57,6 +57,9 @@ public class Customer {
 		this.email = email;
 	}
 	
+	public String toCSV() {
+	    return CustomerId + "," + name + "," + email;
+	}
 	
 public void display() {
 		System.out.println("Customer ID :" + CustomerId +"\nname  :" + name+"\nemail :" + email);

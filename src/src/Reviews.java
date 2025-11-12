@@ -18,6 +18,12 @@ public class Reviews {
 		Customers = new Customers();
 
 	}
+	public Reviews(LinkedList<Review> reviews, Products products, Customers customers) {
+        this.reviews = reviews;
+        this.products = products;
+        this.Customers = customers;
+    }
+	
 	public Reviews(LinkedList<Review> reviews, LinkedList<Product> Tproducts, LinkedList<Customer> Tcustomers) {
 
 		this.reviews = reviews;

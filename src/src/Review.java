@@ -63,7 +63,9 @@ public class Review {
 		this.comment = comment;
 	}
 	
-
+	public String toCSV() {
+	    return reviewID + "," + productID + "," + CustomerId + "," + rating + ",\"" + comment + "\"";
+	}
 	
 	public void display() {
 		

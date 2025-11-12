@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 public class Orders {
 	private  LinkedList<Order> orders;
 	private Customers customers; 
-	private Products productList;
+	public Products productList;
 	
 	
 	public Orders(LinkedList<Customer> customers ,LinkedList<Order> orders) {

@@ -80,6 +80,9 @@ public class Product {
 		this.stock = stock;
 	}
 
+	public String toCSV() {
+	    return productId + "," + name + "," + price + "," + stock;
+	}
 	public String toString() {
 		return "Product Id: " + productId + "\nname: " + name + "\nprice: " + price + "\nstock: " + stock;
 	}

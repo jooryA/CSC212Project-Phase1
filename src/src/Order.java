@@ -41,6 +41,11 @@ public class Order {
 				+ totalPrice + "\nOrderDate=" + OrderDate + "\nStatus=" + Status ;
 	}
 	
+	public String toCSV() {
+	    String dateString = OrderDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+	    
+	    return OrderId + "," + customerId + ",\"" + ProductId + "\"," + totalPrice + "," + dateString + "," + Status;
+	}
 	
 	public int getOrderId() {return OrderId;}
 	
@@ -60,26 +65,6 @@ public class Order {
 	public LinkedList<Integer> getProductIds() {
 		return productIds;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	}

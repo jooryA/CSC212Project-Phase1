@@ -17,6 +17,11 @@ public class ECommerceSystem {
 	static Products AllProducts;
 	static Customers AllCustomers;
 	static Orders AllOrders;
+	
+	private static final String PRODUCTS_FILE = "dataset/prodcuts.csv";
+	private static final String CUSTOMERS_FILE = "dataset/customers.csv";
+	private static final String ORDERS_FILE = "dataset/orders.csv";
+	private static final String REVIEWS_FILE = "dataset/reviews.csv";
 
 	public ECommerceSystem() {
 		ReviewsList = new LinkedList<Review>();
@@ -26,11 +31,10 @@ public class ECommerceSystem {
 
 		// creates an objects and initializes its LinkedList
 
-		AllReviews = new Reviews(ReviewsList, ProductsList, CustomersList);
 		AllProducts = new Products(ProductsList);
 		AllCustomers = new Customers(CustomersList);
-		AllOrders = new Orders(CustomersList, OrdersList,ProductsList);
-	}
+		AllReviews = new Reviews(ReviewsList, ProductsList, CustomersList); 
+		AllOrders = new Orders(CustomersList, OrdersList);	}
 
 
 	public static void main(String[] args) {
@@ -344,6 +348,7 @@ public class ECommerceSystem {
 				break; //end of case customer switch1
 				
 			case 3: //Exit 
+				ES.WriteData();
 				System.out.println("Thank you! , Good bye");
 				System.out.println("-----------------------------------------------");
 				break; //end of exit switch1 
@@ -354,17 +359,24 @@ public class ECommerceSystem {
 		}while(choice1 !=3); //end of ' outer do' picking role 
 
 	} // End of main
-		// Method read from files
-
 
 	public void ReadData() {
-	AllProducts.loadProducts("C:\\Users\\lenovo\\eclipse-workspace\\CSC212Project-Phase1\\dataset\\prodcuts.csv");
-	AllCustomers.loadCustomers("C:\\Users\\lenovo\\eclipse-workspace\\CSC212Project-Phase1\\dataset\\customers.csv");
-	AllOrders.loadOrders("C:\\Users\\lenovo\\eclipse-workspace\\CSC212Project-Phase1\\dataset\\orders.csv");
-	AllReviews.loadReviews("C:\\Users\\lenovo\\eclipse-workspace\\CSC212Project-Phase1\\dataset\\reviews.csv",AllProducts);
-	
+		AllProducts.loadProducts(PRODUCTS_FILE);
+		AllCustomers.loadCustomers(CUSTOMERS_FILE);
+		AllOrders.loadOrders(ORDERS_FILE);
+		AllReviews.loadReviews(REVIEWS_FILE, AllProducts); 
+		
+		AllOrders.productList = AllProducts; 
+		AllReviews.setProducts(AllProducts); 
+		AllReviews.setCustomers(AllCustomers); 
 	}
 	
+	public void WriteData() {
+	    System.out.println("\n--- Saving all data to files before exit ---");
+	    FileManager fm = new FileManager();
+	    fm.saveAllData(ProductsList, CustomersList, OrdersList, ReviewsList);
+	    System.out.println("--- Data saving complete ---");
+	}
 	
 	public void displayTop3Products() {
 	    if (ProductsList.empty()) {
