@@ -208,7 +208,7 @@ public class Orders {
 		                    ids.findnext();
 		                }
 		                if (foundDeleted)
-		                    System.out.println("Some products in this order were deleted.");
+		                    System.out.println("Some products in this order are no longer available..");
 		            }
 		        }
 
