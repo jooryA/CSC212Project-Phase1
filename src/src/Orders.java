@@ -183,22 +183,44 @@ public class Orders {
 		    return sum;
 		}
 
-	public void displayOrders() {
-		if(orders.empty()) {
-			System.out.println("No orders found ");
-			return;
+		public void displayOrders() {
+		    if (orders.empty()) {
+		        System.out.println("No orders found ");
+		        return;
+		    }
+
+		    orders.findfirst();
+		    while (!orders.last()) {
+		        Order ord = orders.retrieve();
+		        System.out.println("---------------------------------------------");
+		        System.out.println(ord.toString());
+
+		        //alert the user there are some products were deleted
+		        if (productList != null) {
+		            LinkedList<Integer> ids = ord.getProductIds();
+		            if (ids != null && !ids.empty()) {
+		                ids.findfirst();
+		                boolean foundDeleted = false;
+		                while (true) {
+		                    Product p = productList.searchProductById(ids.retrieve());
+		                    if (p == null) { foundDeleted = true; break; }
+		                    if (ids.last()) break;
+		                    ids.findnext();
+		                }
+		                if (foundDeleted)
+		                    System.out.println("Some products in this order were deleted.");
+		            }
+		        }
+
+		        orders.findnext();
+		    }
+
+		    System.out.println("---------------------------------------------");
+		    Order ord = orders.retrieve();
+		    System.out.println(ord.toString());
 		}
-		orders.findfirst();
-		while(!orders.last()) { // display all orders until the last order ( last one not included)
-			Order ord =orders.retrieve();
-			System.out.println("---------------------------------------------");
-			System.out.println(ord.toString());
-			orders.findnext();
-		}
-		System.out.println("---------------------------------------------");
-		Order ord =orders.retrieve();// displays the last order
-		System.out.println(ord.toString());	
-	}
+
+
 	public LinkedList<Order> getOrders() {
 		return orders;
 	}

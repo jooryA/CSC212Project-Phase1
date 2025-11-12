@@ -172,7 +172,22 @@ public class Reviews {
 	public void setCustomers(Customers customers) {
 		Customers = customers;
 	}
-	
+	// Remove all reviews that belong to a given product
+	public void removeReviewsByProduct(int productId) {
+	    if (reviews == null || reviews.empty()) return;
+	    reviews.findfirst();
+	    while (true) {
+	        Review r = reviews.retrieve();
+	        if (r != null && r.getProductID() == productId) {
+	            reviews.remove();                 // delete current review
+	            if (reviews.empty()) break;       // list became empty
+	        } else {
+	            if (reviews.last()) break;
+	            reviews.findnext();
+	        }
+	    }
+	}
+
 	
 	
 	public void loadReviews(String fileName,Products productList) {

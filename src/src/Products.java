@@ -29,8 +29,9 @@ public class Products {
 			String name =products.retrieve().getName();
 			products.remove();       //the search method would move the current to the intended product so it'll get removed
 			System.out.println(("Product ID: "+id+" is removed successfully."));}
-		else
+		else {
 			System.out.println("Product with this Id does not exist.");
+		}
 	}
 	
 	public void updateProduct(int id , Product p) {

@@ -96,7 +96,9 @@ public class ECommerceSystem {
 				case 2:// remove product 
 					System.out.println("Enter product id to remove: ");
 					id = input.nextInt();
-					AllProducts.removeProduct(id);
+
+					AllReviews.removeReviewsByProduct(id);  //  remove product's reviews
+					AllProducts.removeProduct(id);          // then delete the product
 					break;
 					
 				case 3:// update product
