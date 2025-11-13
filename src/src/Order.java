@@ -32,8 +32,29 @@ public class Order {
 		}
 	}
 	
-	public void UpdateOrderStatus(String S) {
-		this.Status =S;
+	public void UpdateOrderStatus(String newStatus) {
+		if (newStatus.equalsIgnoreCase("cancelled")) {
+			this.Status="Cancelled";
+			}
+		else if (newStatus.equalsIgnoreCase("shipped")) {
+
+			if (getStatus().equalsIgnoreCase("pending")) {
+				this.Status="Shipped";
+				System.out.println("Order moved to SHIPPED.");}
+			else {
+				System.out.println("Only PENDING orders can be shipped (current = " + getStatus() + ").");
+			}}
+		else if (newStatus.equals("delivered")) {
+			if (getStatus().equalsIgnoreCase("shipped")) {
+				this.Status="Delivered";
+				System.out.println("Order moved to DELIVERED.");
+			} else {
+				System.out.println("Only SHIPPED orders can be delivered (current = " + getStatus() + ").");
+			}
+		}
+		else {
+			System.out.println("Invalid status");
+		}
 	}
 	
 	public String toString() {

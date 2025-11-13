@@ -164,24 +164,24 @@ public class Orders {
 	}
 
 
-		private double OrderTotalPrice(Order ord) {
-		    double sum = 0.0;
-		    if (ord == null) return sum;
-		    
-		    LinkedList<Integer> ids = ord.getProductIds();
-		    if (ids == null || ids.empty()) return sum;
+	private double OrderTotalPrice(Order ord) {
+	    double sum = 0.0;
+	    if (ord == null) return sum;
+	    
+	    LinkedList<Integer> ids = ord.getProductIds();
+	    if (ids == null || ids.empty()) return sum;
 
-		    ids.findfirst();
-		    while (true) {
-		        int pid = ids.retrieve();
-		        Product p = productList.searchProductById(pid);
-		        if (p != null) sum += p.getPrice();
+	    ids.findfirst();
+	    while (true) {
+	        int pid = ids.retrieve();
+	        Product p = productList.searchProductById(pid);
+	        if (p != null) sum += p.getPrice();
 
-		        if (ids.last()) break;
-		        ids.findnext();
-		    }
-		    return sum;
-		}
+	        if (ids.last()) break;
+	        ids.findnext();
+	    }
+	    return sum;
+	}
 
 		public void displayOrders() {
 		    if (orders.empty()) {

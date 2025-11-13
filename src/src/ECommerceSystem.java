@@ -258,27 +258,11 @@ public class ECommerceSystem {
 						String newStatus = input.nextLine().trim().toLowerCase();
 
 						if (newStatus.equals("cancelled") || newStatus.equals("canceled")) {
-							AllOrders.CancelOrder(id); }///// 
-						else if (newStatus.equalsIgnoreCase("shipped")) {
-
-							if (o.getStatus().equalsIgnoreCase("pending")) {
-								o.UpdateOrderStatus("Shipped");
-								System.out.println("Order moved to SHIPPED.");}
-							else {
-								System.out.println("Only PENDING orders can be shipped (current = " + o.getStatus() + ").");
-							}}
-						else if (newStatus.equals("delivered")) {
-							if (o.getStatus().equalsIgnoreCase("shipped")) {
-								o.UpdateOrderStatus("Delivered");
-								System.out.println("Order moved to DELIVERED.");
-							} else {
-								System.out.println("Only SHIPPED orders can be delivered (current = " + o.getStatus() + ").");
+							AllOrders.CancelOrder(id);
+							System.out.println("Order moved to CANCELLED.");
 							}
-						}
-						else {
-							System.out.println("Invalid status");
-						}
-
+						
+						o.UpdateOrderStatus(newStatus);
 						break;
 
 					}
