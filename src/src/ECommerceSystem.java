@@ -133,11 +133,32 @@ public class ECommerceSystem {
 				    }
 				    System.out.println("Current status: " + o.getStatus());
 				    System.out.print("Enter new status: ");
-				    String newStatus = input.nextLine().trim();
+				    String newStatus = input.nextLine().trim().toLowerCase();
 
-				    o.UpdateOrderStatus(newStatus);
-				    System.out.println("Order status updated successfully.");
-				    break;
+				    if (newStatus.equals("cancelled") || newStatus.equals("canceled")) {
+				        AllOrders.CancelOrder(id); }///// 
+				    else if (newStatus.equalsIgnoreCase("shipped")) {
+				    	
+				        if (o.getStatus().equalsIgnoreCase("pending")) {
+				            o.UpdateOrderStatus("Shipped");
+				            System.out.println("Order moved to SHIPPED.");}
+				        else {
+				            System.out.println("Only PENDING orders can be shipped (current = " + o.getStatus() + ").");
+				        }}
+				        else if (newStatus.equals("delivered")) {
+				            if (o.getStatus().equalsIgnoreCase("shipped")) {
+				                o.UpdateOrderStatus("Delivered");
+				                System.out.println("Order moved to DELIVERED.");
+				            } else {
+				                System.out.println("Only SHIPPED orders can be delivered (current = " + o.getStatus() + ").");
+				            }
+				        }
+				        else {
+				            System.out.println("Invalid status");
+				        }
+
+				        break;
+				   
 				}
 
 				case 5: // View Customer Reviews

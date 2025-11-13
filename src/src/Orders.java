@@ -120,49 +120,49 @@ public class Orders {
 	}
 
 	public void CancelOrder(int id) {
-	    // Find the order by its ID
+	    
 	    Order o = SearchOrderByID(id);
 	    if (o == null) {
 	        System.out.println("No order found with this ID to cancel");
 	        return;
 	    }
-	    
+
 	    String status = o.getStatus();
-	    //  Allow cancel ONLY if status == PENDING
-	    if (!"Pending".equalsIgnoreCase(status)) {
-	        System.out.println("Order " + id + " cannot be cancelled. Only PENDING orders can be cancelled (current=" + status + ").");
+
+	    if (status.equalsIgnoreCase("shipped") || status.equalsIgnoreCase("delivered")) {
+	        System.out.println("Cannot cancel this order. It’s already " + status + ".");
 	        return;
 	    }
 
-	    // Make sure product list is ready before adjusting stock
-	    if (productList == null) {
-	        System.out.println("Products list is not initialized");
+	    if (!status.equalsIgnoreCase("pending")) {
+	        System.out.println("Only PENDING orders can be cancelled (current: " + status + ").");
 	        return;
 	    }
 
-	    // Update order status to "Cancelled"
+	    //update status to cancelled
 	    o.UpdateOrderStatus("Cancelled");
-	    System.out.println("Order " + id + " has been cancelled successfully.");
+	    System.out.println(" Order " + id + " has been cancelled successfully.");
 
-	    //  Restore stock for all products in this order
+	    if (productList == null) {
+	        System.out.println("Products list is not initialized.");
+	        return;
+	    }
+
 	    LinkedList<Integer> productIDs = o.getProductIds();
 	    if (!productIDs.empty()) {
 	        productIDs.findfirst();
 	        while (true) {
 	            int pid = productIDs.retrieve();
 	            Product p = productList.searchProductById(pid);
-
 	            if (p != null) {
-	                p.setStock(p.getStock() + 1); // increase stock per product
-	            } else {
-	                System.out.println("Product " + pid + " not found in the product list.");
+	                p.setStock(p.getStock() + 1); 
 	            }
-
 	            if (productIDs.last()) break;
 	            productIDs.findnext();
 	        }
 	    }
 	}
+
 
 		private double OrderTotalPrice(Order ord) {
 		    double sum = 0.0;
