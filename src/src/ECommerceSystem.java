@@ -357,6 +357,7 @@ public class ECommerceSystem {
 				break; //end of case manager switch1 
 
 			case 2: //customer
+				do {
 				System.out.println();
 				System.out.println("===============================================");
 				System.out.println("1- Register");
@@ -482,7 +483,7 @@ public class ECommerceSystem {
 					System.out.println("===============================================");
 					break;
 				}  //end of customer switch choices 
-
+				}while(choice!=8);
 
 				break; //end of case customer switch1
 
@@ -492,7 +493,7 @@ public class ECommerceSystem {
 				System.out.println("-----------------------------------------------");
 				break; //end of exit switch1 
 			}  //end of switch1 
-
+			
 
 
 		}while(choice1 !=3); //end of ' outer do' picking role 
