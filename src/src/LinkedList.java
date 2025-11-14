@@ -67,9 +67,6 @@ public class LinkedList<T> {
 	}
 
 
-
-
-
 }
 
 class Node<T>{
